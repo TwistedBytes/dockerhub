@@ -28,10 +28,6 @@
     repository: "twistedbytes/${dockerdir}"
     build_args:
       - "IMAGE_CREATED=${BUDDY_EXECUTION_START_DATE}"
-    trigger_conditions:
-    - trigger_condition: "ON_CHANGE_AT_PATH"
-      trigger_condition_paths:
-      - "${dockerdir}/"
     target_platform: "linux/amd64"
     integration_hash: "9JOyLkQWjneg8XjlawZ1p0GDXN"
   - action: "Clear cache"
