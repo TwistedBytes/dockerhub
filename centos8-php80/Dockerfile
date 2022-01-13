@@ -19,5 +19,6 @@ RUN true \
     && dnf -y install php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mcrypt php-mysqlnd \
                       php-pdo php-pgsql php-process php-soap php-xml php-xmlrpc php-opcache php-fpm php-cli \
                       php-pecl-zip  \
+    && dnf -y install git \
     && dnf clean all \
     && true
