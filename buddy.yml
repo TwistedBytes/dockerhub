@@ -55,6 +55,15 @@
     - "refs/heads/main"
   priority: "NORMAL"
   actions:
+  - action: "Clear cache"
+    type: "CLEAR_CACHE"
+    cache_types:
+      - "DOCKER"
+      - "FILE_SYSTEM"
+      - "SERVICES"
+      - "ADDITIONAL"
+      - "DOCKER_CLI"
+
   - action: "Run dockerhub/Dockerhub builds"
     type: "RUN_NEXT_PIPELINE"
     comment: "Build ${dockerdir}: Triggered by $BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID"
@@ -65,6 +74,7 @@
       type: "VAR"
     next_project_name: "dockerhub"
     next_pipeline_name: "Dockerhub builds"
+
   - action: "Sleep 10 seconds"
     type: "SLEEP"
     sleep_in_sec: 10
