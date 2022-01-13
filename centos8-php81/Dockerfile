@@ -2,11 +2,12 @@ FROM centos:8
 
 ARG PHP_MAJOR_VERSION=8
 ARG PHP_MAJOR_MINOR_VERSION=8.1
+ARG IMAGE_CREATED
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.created="{#date#}" \
-      org.opencontainers.image.version="{#date#}{#datebuild#}" \
+      org.opencontainers.image.created="${IMAGE_CREATED}" \
+      org.opencontainers.image.version="2022.01.13.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
