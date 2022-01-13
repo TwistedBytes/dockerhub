@@ -11,8 +11,8 @@
   - action: "Get Image version"
     type: "BUILD"
     working_directory: "/buddy/dockerhub"
-    docker_image_name: "library/centos8"
-    docker_image_tag: "latest"
+    docker_image_name: "library/centos"
+    docker_image_tag: "8"
     execute_commands:
       - "IMAGE_VERSION=`grep org.opencontainers.image.version ${dockerdir}/Dockerfile | awk -F \\\" '{print $2}'`"
     volume_mappings:
