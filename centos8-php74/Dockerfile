@@ -1,7 +1,7 @@
 FROM centos:8
 
 ARG PHP_MAJOR_VERSION=7
-ARG PHP_MAJOR_MINOR_VERSION=8.4
+ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.4
 ARG IMAGE_CREATED
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
@@ -12,8 +12,8 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
 RUN true \
-    && dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${PHP_MAJOR_VERSION}.noarch.rpm \
-    && dnf -y install https://rpms.remirepo.net/enterprise/remi-release-${PHP_MAJOR_VERSION}.rpm \
+    && dnf -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm \
+    && dnf -y install https://rpms.remirepo.net/enterprise/remi-release-8.rpm \
     && dnf -y module reset php \
     && dnf -y module install php:remi-${PHP_MAJOR_MINOR_VERSION} \
     && dnf -y install php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mcrypt php-mysqlnd \
