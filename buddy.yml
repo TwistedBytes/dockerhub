@@ -63,20 +63,16 @@
         - "ADDITIONAL"
         - "DOCKER_CLI"
 
-    - action: "Run dockerhub/Dockerhub centos8-php81"
+    - action: "Run dockerhub/Dockerhub centos8-php74"
       type: "RUN_NEXT_PIPELINE"
       comment: "Build ${dockerdir}: Triggered by $BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID"
       revision: "INHERIT"
       variables:
         - key: "dockerdir"
-          value: "centos8-php81"
+          value: "centos8-php74"
           type: "VAR"
       next_project_name: "dockerhub"
       next_pipeline_name: "Dockerhub builds"
-
-    - action: "Sleep 10 seconds 1"
-      type: "SLEEP"
-      sleep_in_sec: 10
 
     - action: "Run dockerhub/Dockerhub centos8-php80"
       type: "RUN_NEXT_PIPELINE"
@@ -85,6 +81,17 @@
       variables:
         - key: "dockerdir"
           value: "centos8-php80"
+          type: "VAR"
+      next_project_name: "dockerhub"
+      next_pipeline_name: "Dockerhub builds"
+
+    - action: "Run dockerhub/Dockerhub centos8-php81"
+      type: "RUN_NEXT_PIPELINE"
+      comment: "Build ${dockerdir}: Triggered by $BUDDY_PIPELINE_NAME execution #$BUDDY_EXECUTION_ID"
+      revision: "INHERIT"
+      variables:
+        - key: "dockerdir"
+          value: "centos8-php81"
           type: "VAR"
       next_project_name: "dockerhub"
       next_pipeline_name: "Dockerhub builds"
