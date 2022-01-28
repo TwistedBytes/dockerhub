@@ -1,7 +1,7 @@
 FROM centos:8
 
-ARG PHP_MAJOR_VERSION=8
-ARG PHP_MAJOR_MINOR_VERSION=8.0
+ARG PHP_MAJOR_VERSION=7
+ARG PHP_MAJOR_MINOR_VERSION=8.4
 ARG IMAGE_CREATED
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
