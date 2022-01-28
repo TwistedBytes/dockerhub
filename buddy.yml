@@ -3,8 +3,8 @@
   refs:
     - "refs/heads/main"
   priority: "NORMAL"
-  no_skip_to_most_recent: true
-  fail_on_prepare_env_warning: true
+#  no_skip_to_most_recent: true
+#  fail_on_prepare_env_warning: true
   actions:
     - action: "Lint Dockerfile"
       type: "DOCKERFILE_LINTER"
