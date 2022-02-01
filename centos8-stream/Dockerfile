@@ -13,7 +13,7 @@ RUN true \
          -e 's/mirror.centos.org/vault.centos.org/' \
          /etc/yum.repos.d/CentOS-Linux-AppStream.repo /etc/yum.repos.d/CentOS-Linux-BaseOS.repo \
     && dnf -y install centos-release-stream \
-    && dnf -y swap centos-{linux,stream}-repos \
+    && dnf -y swap centos-linux-repos centos-stream-repos \
     && dnf -y distro-sync \
     && rm -f /etc/yum.repos.d/*rpmsave \
     && dnf clean all \
