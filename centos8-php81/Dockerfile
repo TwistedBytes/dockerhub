@@ -7,7 +7,7 @@ ARG IMAGE_CREATED
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
       org.opencontainers.image.created="${IMAGE_CREATED}" \
-      org.opencontainers.image.version="2022.01.28.01" \
+      org.opencontainers.image.version="2022.02.01.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
