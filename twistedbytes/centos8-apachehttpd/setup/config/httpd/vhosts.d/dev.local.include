@@ -1,0 +1,34 @@
+  ServerName dev.local
+
+  ## Vhost docroot
+  DocumentRoot "${_DOCROOT}/"
+
+  ## Directories, there should at least be a declaration for /data/docroot
+
+  <Directory "${_DOCROOT}/">
+    Options SymLinksIfOwnerMatch
+    AllowOverride AuthConfig Limit FileInfo Indexes Options
+    Require all granted
+    DirectoryIndex index.html index.php
+    CGIPassAuth On
+  </Directory>
+
+  ## Logging
+  ErrorLog "${_LOGDIR_WEB}/dev_error.log"
+  ServerSignature Off
+  CustomLog "${_LOGDIR_WEB}/dev_access.log" "vhost_combined_extra"
+
+  ## Custom fragment
+
+  # PHP requests to php-fpm
+  ProxyTimeout 600
+  <FilesMatch "\.php$">
+    SetHandler proxy:fcgi://${_PHPFPM_PORT}
+  </FilesMatch>
+
+  # limit to 100MB request
+  LimitRequestBody 102400000
+
+  IncludeOptional "/etc/httpd/vhosts.d/all-*.include"
+  IncludeOptional "/etc/httpd/vhosts.d/dev.local-*.include"
+

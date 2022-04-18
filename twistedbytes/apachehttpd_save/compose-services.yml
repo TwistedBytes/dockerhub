@@ -1,0 +1,18 @@
+version: "3.7"
+
+services:
+  apachehttpd:
+    image: ${COMPOSE_PROJECT_NAME}/apachehttpd
+    platform: linux/amd64
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: ..
+      dockerfile: ./apachehttpd/Dockerfile
+      args:
+        - APP_GROUP=${APP_GROUP}
+        - APP_GROUP_ID=${APP_GROUP_ID}
+        - APP_USER=${APP_USER}
+        - APP_USER_ID=${APP_USER_ID}
+        - TZ=${TIMEZONE}
+    # user: "${APP_USER_ID}:${APP_GROUP_ID}"
