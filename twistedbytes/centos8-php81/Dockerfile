@@ -1,4 +1,4 @@
-FROM twistedbytes/centos8-stream:latest
+FROM twistedbytes/centos8-stream:2022.04.18.01
 
 ARG PHP_MAJOR_VERSION=8
 ARG PHP_MAJOR_MINOR_VERSION=8.1

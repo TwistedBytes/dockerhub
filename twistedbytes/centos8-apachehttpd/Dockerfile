@@ -1,4 +1,4 @@
-FROM twistedbytes/centos8-stream:latest
+FROM twistedbytes/centos8-stream:2022.04.18.01
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
