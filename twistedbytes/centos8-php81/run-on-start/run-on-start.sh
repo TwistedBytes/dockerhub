@@ -1,13 +1,13 @@
 #!/bin/bash
 set -e
-set -x
+# set -x
 
 _TB_START_CMD="$@"
 
 _TB_LAST_COMMAND="/bin/bash"
 
-# if No command and No _TB_ vars do no run any of the startup commands.
-if [[ -z $_TB_START_CMD ]] && [[ $( export | grep _TB_ | grep -v -e '_TB_TZ' | wc -l ) -eq 0 ]]; then
+# IF _TB_RUNONSTART  then only start bash
+if [[ $_TB_RUNONSTART == N ]]; then
   exec /bin/bash
   exit 0
 fi

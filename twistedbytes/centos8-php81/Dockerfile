@@ -4,6 +4,7 @@ ARG PHP_MAJOR_VERSION=8
 ARG PHP_MAJOR_MINOR_VERSION=8.1
 
 ENV _TB_TZ=UTC
+ENV _TB_RUNONSTART=N
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
