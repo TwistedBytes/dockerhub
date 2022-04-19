@@ -8,8 +8,8 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
 
 # upgrade packages
 RUN true \
-    && dnf -y upgrade --setopt=install_weak_deps=False \
-    && dnf -y install procps-ng iputils iproute rsync \
+    && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs upgrade \
+    && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install procps-ng iputils iproute rsync \
     && dnf clean all \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/yum \
