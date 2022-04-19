@@ -1,27 +1,44 @@
 #!/bin/sh
 
-set -e
-# set -x
+#-- help section
+# INPUTVAR _TB_UIDGID
+#     Value: "<uid>:<gid>", ex: 1000:100. Sets the uid and gid for the internal www-data user. Created files will be owned by that user
+# INPUTVAR _TB_UIDGID_FROMDIR
+#     Value: A path, alternative for _TB_UIDGID to get the uid/gid from that dir in the docker. Need to set a volume to use
 
-APP_USER=$1
-APP_GROUP=$2
-APP_USER_ID=$3
-APP_GROUP_ID=$4
+#-- end help section, keep 1 line free above
 
-grep ${APP_USER_ID} /etc/passwd || true
+if [[ -d ${_TB_UIDGID_FROMDIR} ]]; then
+  uid=$(stat -c '%u' "$_TB_UIDGID_FROMDIR")
+  gid=$(stat -c '%g' "$_TB_UIDGID_FROMDIR")
 
-grep ${APP_GROUP_ID} /etc/group || true
+  export _TB_UIDGID=${uid}:${gid}
+fi
+
+if [[ -z ${_TB_UIDGID} ]] || [[ $uid -eq 0 ]]; then
+  echo no environment var _TB_UIDGID found
+  exit 1
+fi
+
+APP_USER=www-data
+APP_GROUP=www-data
+APP_USER_ID=`echo "${_TB_UIDGID}" | cut -d: -f 1`
+APP_GROUP_ID=`echo "${_TB_UIDGID}" | cut -d: -f 2`
+
+grep -q ${APP_USER_ID} /etc/passwd || true
+
+grep -q ${APP_GROUP_ID} /etc/group || true
 
 new_user_id_exists=$(id ${APP_USER_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_user_id_exists" = "0" ]; then
-    (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
-    exit 1;
+    # (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
+    exit 0;
 fi
 
 new_group_id_exists=$(getent group ${APP_GROUP_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_group_id_exists" = "0" ]; then
-    (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
-    exit 1;
+    # (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
+    exit 0;
 fi
 
 old_user_id=$(id -u ${APP_USER} > /dev/null 2>&1 || echo "")
