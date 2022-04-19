@@ -15,7 +15,6 @@ if [[ -d ${_TB_UIDGID_FROMDIR} ]]; then
   export _TB_UIDGID=${uid}:${gid}
 fi
 
-
 if [[ -z ${_TB_UIDGID} ]] || [[ $uid -eq 0 ]]; then
   echo no environment var _TB_UIDGID found
   exit 1
@@ -32,14 +31,14 @@ grep -q ${APP_GROUP_ID} /etc/group || true
 
 new_user_id_exists=$(id ${APP_USER_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_user_id_exists" = "0" ]; then
-    (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
-    exit 1;
+    # (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
+    exit 0;
 fi
 
 new_group_id_exists=$(getent group ${APP_GROUP_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_group_id_exists" = "0" ]; then
-    (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
-    exit 1;
+    # (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
+    exit 0;
 fi
 
 old_user_id=$(id -u ${APP_USER} > /dev/null 2>&1 || echo "")

@@ -75,8 +75,8 @@ services:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: root
-    ports:
-      - ${MYSQL_PORT:-3306}:3306
+    #    ports:
+    #      - ${MYSQL_PORT:-3306}:3306
     volumes:
       - database:/var/lib/mysql
     command:

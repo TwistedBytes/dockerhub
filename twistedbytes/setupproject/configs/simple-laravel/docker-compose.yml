@@ -36,17 +36,6 @@ services:
     environment:
       - _TB_UIDGID_FROMDIR=/var/www/html
       - _TB_PHPFPM=Y
-
-      - SS_DATABASE_CLASS=MySQLDatabase
-      - SS_DATABASE_SERVER=db
-      - SS_DATABASE_USERNAME=root
-      - SS_DATABASE_PASSWORD=root
-      - SS_DATABASE_NAME=silverstripe
-
-      - SS_DEFAULT_ADMIN_USERNAME=admin
-      - SS_DEFAULT_ADMIN_PASSWORD=password
-
-      - SS_ENVIRONMENT_TYPE=dev
     volumes:
       # - ./docker-config/apache-vhosts:/etc/httpd/vhosts.d
       - ./logs/phpfpm:/var/log/php-fpm
@@ -75,13 +64,30 @@ services:
       - backend
     environment:
       MYSQL_ROOT_PASSWORD: root
-    ports:
-      - ${MYSQL_PORT:-3306}:3306
+    #    ports:
+    #      - ${MYSQL_PORT:-3306}:3306
     volumes:
       - database:/var/lib/mysql
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
+
+  # mailhog to send mail without sending them out to the internet
+  # connect to http://localhost:8025
+  mailhog:
+    image: mailhog/mailhog:latest
+    restart: always
+    networks:
+      - backend
+    ports:
+      - "127.0.0.1:8025:8025"
+
+  redis:
+    image: redis:6-alpine
+    restart: always
+    networks:
+      - backend
+
 
 volumes:
   database:
