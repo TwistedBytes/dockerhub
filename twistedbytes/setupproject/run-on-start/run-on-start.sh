@@ -18,6 +18,10 @@ while [[ $# -gt 0 ]]; do
         export _TB_UIDGID="$2"
         shift # past argument
       ;;
+      --projecttype | -p)
+        export _TB_CONFIG="$2"
+        shift # past argument
+      ;;
 
       help)
           grep -h -A1  -e '^# INPUTVAR' /aa-run-on-start/scripts/*.sh | sed -e 's/^#//g'
