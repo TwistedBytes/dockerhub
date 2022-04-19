@@ -2,17 +2,15 @@
 set -e
 # set -x
 
-_TB_START_CMD="$@"
-
-_TB_LAST_COMMAND="/bin/bash"
-
 # IF _TB_RUNONSTART  then only start bash
 if [[ $_TB_RUNONSTART == N ]]; then
   exec /bin/bash
   exit 0
 fi
 
-export _TB_START_CMD
+export _TB_START_CMD="$@"
+
+_TB_LAST_COMMAND="/bin/bash"
 
 while [[ $# -gt 0 ]]; do
   key="$1"

@@ -1,14 +1,11 @@
 FROM twistedbytes/centos8-stream:2022.04.19.01
 
 ARG PHP_MAJOR_VERSION=8
-ARG PHP_MAJOR_MINOR_VERSION=8.1
-
-ENV _TB_TZ=UTC
-ENV _TB_RUNONSTART=N
+ARG PHP_MAJOR_MINOR_VERSION=8.0
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.19.04" \
+      org.opencontainers.image.version="2022.04.19.06" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
@@ -28,20 +25,3 @@ RUN true \
     && rm -rf /var/cache/dnf \
     && find /var/log -type f -name '*.log' -delete \
     && true
-
-RUN true \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
-    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer1 --version=1.10.16
-
-COPY ./setup/config/conf.d/* /etc/php.d/
-COPY ./setup/config/php-fpm.conf /etc/php-fpm.conf
-RUN touch /etc/php-fpm-pool-www-extra.conf
-
-COPY run-on-start/ /aa-run-on-start/
-RUN find /aa-run-on-start/ -type f -exec chmod 755 {} ';'
-
-# CMD ["/aa-run-on-start/run-on-start.sh"]
-
-ENTRYPOINT ["/aa-run-on-start/run-on-start.sh"]
-
-EXPOSE 9000
