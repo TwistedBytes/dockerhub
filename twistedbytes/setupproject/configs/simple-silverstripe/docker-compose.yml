@@ -30,7 +30,7 @@ services:
       - -DFOREGROUND
 
   php-fpm:
-    image: twistedbytes/centos8-php81
+    image: twistedbytes/centos8-phpfpm81
     networks:
       backend:
     environment:
@@ -55,7 +55,7 @@ services:
     command: phpfpm
 
   php-cli:
-    image: twistedbytes/centos8-php81
+    image: twistedbytes/centos8-phpfpm81
     restart: "no"
     networks:
       backend:

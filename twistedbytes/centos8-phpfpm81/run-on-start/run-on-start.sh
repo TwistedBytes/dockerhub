@@ -2,12 +2,6 @@
 set -e
 # set -x
 
-# IF _TB_RUNONSTART  then only start bash
-if [[ $_TB_RUNONSTART == N ]]; then
-  exec /bin/bash
-  exit 0
-fi
-
 export _TB_START_CMD="$@"
 
 _TB_LAST_COMMAND="/bin/bash"
