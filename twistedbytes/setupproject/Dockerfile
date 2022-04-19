@@ -6,14 +6,14 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Setup a directory for PHP development"
 
-RUN true \
-    && dnf -y --setopt=tsflags=nodocs install rsync \
-    && dnf clean all \
-    && rm -rf /tmp/* \
-    && rm -rf /var/cache/yum \
-    && rm -rf /var/cache/dnf \
-    && find /var/log -type f -name '*.log' -delete \
-    && true
+#RUN true \
+#    && dnf -y --setopt=tsflags=nodocs install rsync \
+#    && dnf clean all \
+#    && rm -rf /tmp/* \
+#    && rm -rf /var/cache/yum \
+#    && rm -rf /var/cache/dnf \
+#    && find /var/log -type f -name '*.log' -delete \
+#    && true
 
 COPY configs/ /configs/
 
