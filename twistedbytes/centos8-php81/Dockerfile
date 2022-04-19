@@ -7,7 +7,7 @@ ENV _TB_TZ=UTC
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.19.02" \
+      org.opencontainers.image.version="2022.04.19.03" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
