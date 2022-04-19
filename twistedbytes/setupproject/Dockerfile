@@ -1,8 +1,8 @@
-FROM twistedbytes/centos8-php81:latest
+FROM twistedbytes/centos8-php81:2022.04.18.01
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.15.01" \
+      org.opencontainers.image.version="2022.04.19.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Setup a directory for PHP development"
 
@@ -17,6 +17,7 @@ RUN true \
 
 COPY configs/ /configs/
 
+RUN rm -Rf /aa-run-on-start/
 COPY run-on-start/ /aa-run-on-start/
 RUN find /aa-run-on-start/ -type f -exec chmod 755 {} ';'
 
