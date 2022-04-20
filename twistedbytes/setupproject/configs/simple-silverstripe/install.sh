@@ -10,7 +10,8 @@ fi
 CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 mkdir -p ${_TARGET_DIR}/logs/{httpd,phpfpm} || true
-touch ${_TARGET_DIR}/logs/{httpd,phpfpm}/.gitignore  || true
+echo "*.log" > ${_TARGET_DIR}/logs/httpd/.gitignore
+echo "*.log" > ${_TARGET_DIR}/logs/phpfpm/.gitignore
 
 mkdir ${_TARGET_DIR}/src  || true
 
