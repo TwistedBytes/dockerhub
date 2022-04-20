@@ -25,24 +25,20 @@ APP_GROUP=www-data
 APP_USER_ID=`echo "${_TB_UIDGID}" | cut -d: -f 1`
 APP_GROUP_ID=`echo "${_TB_UIDGID}" | cut -d: -f 2`
 
-grep -q ${APP_USER_ID} /etc/passwd || true
-
-grep -q ${APP_GROUP_ID} /etc/group || true
-
 new_user_id_exists=$(id ${APP_USER_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_user_id_exists" = "0" ]; then
-    # (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
+    (>&2 echo "ERROR: APP_USER_ID $APP_USER_ID already exists - Aborting!");
     exit 0;
 fi
 
 new_group_id_exists=$(getent group ${APP_GROUP_ID} > /dev/null 2>&1 || echo 1)
 if [ "$new_group_id_exists" = "0" ]; then
-    # (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
+    (>&2 echo "ERROR: APP_GROUP_ID $APP_GROUP_ID already exists - Aborting!");
     exit 0;
 fi
 
-old_user_id=$(id -u ${APP_USER} > /dev/null 2>&1 || echo "")
-old_user_exists=$(id -u ${APP_USER} > /dev/null 2>&1 || echo 1)
+old_user_id=$(getent passwd ${APP_USER} | cut -d: -f3)
+old_user_exists=$(getent passwd ${APP_USER} > /dev/null 2>&1 || echo 1)
 old_group_id=$(getent group ${APP_GROUP} | cut -d: -f3)
 old_group_exists=$(getent group ${APP_GROUP} > /dev/null 2>&1 || echo 1)
 
@@ -51,10 +47,10 @@ if [ "$old_group_id" != "${APP_GROUP_ID}" ]; then
     groupadd -f ${APP_GROUP}
     # and the correct id
     groupmod -o -g ${APP_GROUP_ID} ${APP_GROUP}
-    if [ "$old_group_exists" = "0" ]; then
-        # set the permissions of all "old" files and folder to the new group
-        find / -group $old_group_id -exec chgrp -h ${APP_GROUP} {} \; || true
-    fi
+#    if [ "$old_group_exists" = "0" ]; then
+#        # set the permissions of all "old" files and folder to the new group
+#        find / -group $old_group_id -exec chgrp -h ${APP_GROUP} {} \; || true
+#    fi
 fi
 
 if [ "$old_user_id" != "${APP_USER_ID}" ]; then
@@ -68,9 +64,9 @@ if [ "$old_user_id" != "${APP_USER_ID}" ]; then
 
     # change the user id, set the home directory and make sure the user has a login shell
     usermod -u ${APP_USER_ID} -m -d /home/${APP_USER} ${APP_USER} -s $(which bash)
-
-    if [ "$old_user_exists" = "0" ]; then
-        # set the permissions of all "old" files and folder to the new user
-        find / -user $old_user_id -exec chown -h ${APP_USER} {} \; || true
-    fi
+#
+#    if [ "$old_user_exists" = "0" ]; then
+#        # set the permissions of all "old" files and folder to the new user
+#        find / -user $old_user_id -exec chown -h ${APP_USER} {} \; || true
+#    fi
 fi
