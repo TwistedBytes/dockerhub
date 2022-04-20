@@ -1,5 +1,8 @@
 FROM twistedbytes/centos8-php74:2022.04.20.02
 
+ARG PHP_MAJOR_VERSION=7
+ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.4
+
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
       org.opencontainers.image.version="2022.04.20.02" \
