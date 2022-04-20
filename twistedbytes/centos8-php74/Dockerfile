@@ -1,11 +1,11 @@
-FROM twistedbytes/centos8-stream:2022.04.18.01
+FROM twistedbytes/centos8-stream:2022.04.19.01
 
 ARG PHP_MAJOR_VERSION=7
 ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.4
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.15.01" \
+      org.opencontainers.image.version="2022.04.20.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
