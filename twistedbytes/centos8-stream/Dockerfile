@@ -2,7 +2,7 @@ FROM quay.io/centos/centos:stream8
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.19.01" \
+      org.opencontainers.image.version="2022.04.20.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 Stream base image from centos:centos8"
 
