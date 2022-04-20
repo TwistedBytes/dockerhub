@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set -e
+# set -x
+
 MYDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 buildDir(){
@@ -33,9 +36,9 @@ buildDir(){
 }
 
 function getVersion(){
-  DIR=$1
+  local DIR=$1
   
-  echo ${DIR}
+  # echo ${DIR}
   VERSION=`grep -e 'org.opencontainers.image.version' "${DIR}/Dockerfile" | awk -F '"' '{print $2}'`
 }
 
@@ -48,7 +51,7 @@ function existsParent(){
 }
 
 function getParent(){
-    DIR=$1
+  local DIR=$1
   
 	local FROMLINE=`grep -e '^FROM' "${DIR}/Dockerfile"`
 	IFS=' ' read -a PARTS <<< "$FROMLINE"
@@ -59,6 +62,36 @@ function getParent(){
 	PARENT=${PARTS[1]}
 }
 
+function fixParent(){
+  local DIR=$1
+  getParent ${DIR}
+
+  if [[ $PARENT =~ ^(twistedbytes.*): ]]; then
+    local PARENT_DIR=${BASH_REMATCH[1]}
+    fixParent $PARENT_DIR
+  else
+    return
+  fi
+  getParent ${DIR}
+  if [[ $PARENT =~ ^(twistedbytes.*): ]]; then
+    local PARENT_DIR=${BASH_REMATCH[1]}
+
+    getVersion ${PARENT_DIR}
+    grep -q "^FROM $PARENT_DIR:${VERSION}" $DIR/Dockerfile
+    if [[ $? -ne 0 ]]; then
+      echo "SET PARENT ($PARENT_DIR) of ${DIR} to VERSION: ${VERSION}"
+
+      sed -i -r -e "/^FROM/s/:.*/:${VERSION}/" $DIR/Dockerfile
+    fi
+  fi
+}
+
+function fixParents(){
+  for i in twistedbytes/*; do
+    fixParent $i;
+  done
+}
+
 
 usage() { 
   echo "Usage: $0 [-s <45|90>] [-p <string>]" 1>&2; exit 1; 
@@ -66,7 +99,7 @@ usage() {
 
 # http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt
 # read the options
-TEMP=`getopt -o a::d: --long arga::,dir: -n 'test.sh' -- "$@"`
+TEMP=`getopt -o a::d:f:: --long arga::,dir:,fix-parents:: -n 'test.sh' -- "$@"`
 eval set -- "$TEMP"
 
 while true ; do
@@ -78,6 +111,10 @@ while true ; do
       esac ;;
     -d|--dir)
       DIR=1 ; 
+      shift ;;
+    -f|--fix-parents)
+      fixParents
+      exit 0
       shift ;;
     -c|--argc)
       case "$2" in
