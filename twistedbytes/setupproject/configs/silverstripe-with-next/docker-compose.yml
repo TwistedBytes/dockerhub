@@ -13,7 +13,7 @@ services:
         aliases:
           - frontend.tbdocker.xyz
           - backend.tbdocker.xyz
-    user: "${APP_USER_ID}:${APP_GROUP_ID}"
+    user: ${APP_USER_ID:-1000}:${APP_GROUP_ID:-1000}
     depends_on:
       - php-fpm
       - db
@@ -60,8 +60,13 @@ services:
     environment:
       - _TB_UIDGID_FROMDIR=/var/www/html/Silverstripe
       - _TB_SUDO_TOFROMDIR=Y
+
+      - SS_DATABASE_CLASS=MySQLDatabase
+      - SS_DATABASE_SERVER=db
+      - SS_DATABASE_USERNAME=root
+      - SS_DATABASE_PASSWORD=root
+      - SS_DATABASE_NAME=silverstripe
     volumes:
-      - ./logs/phpfpm:/var/log/php-fpm
       - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
       - ./src/Silverstripe:/var/www/html/Silverstripe
 
