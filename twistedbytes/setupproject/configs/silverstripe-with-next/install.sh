@@ -22,6 +22,7 @@ mkdir ${_TARGET_DIR}/src/next  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
 cp -Rf ${CDIR}/docker-config ${_TARGET_DIR}/  || true
+cp -Rf ${CDIR}/Readme-docker.md ${_TARGET_DIR}/  || true
 
 if [[ -n ${_TB_UIDGID} ]]; then
   uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`
