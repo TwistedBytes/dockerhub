@@ -22,7 +22,6 @@ twistedbytes/setupproject \
 ## With Next
 ```
 docker run -ti --rm \
--v $PWD/dockerhub/twistedbytes/setupproject/configs/:/configss/ \
 -v $PWD/tb-silverstripe-next:/projectroot/ \
 twistedbytes/setupproject \
 -u $(id -u):$(id -g) \
