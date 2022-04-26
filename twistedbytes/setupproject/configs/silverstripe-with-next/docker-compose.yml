@@ -11,7 +11,8 @@ services:
     networks:
       backend:
         aliases:
-          - dockertest1.tbdocker.xyz
+          - frontend.tbdocker.xyz
+          - backend.tbdocker.xyz
     user: "${APP_USER_ID}:${APP_GROUP_ID}"
     depends_on:
       - php-fpm
@@ -32,7 +33,7 @@ services:
     networks:
       backend:
     environment:
-      - _TB_UIDGID_FROMDIR=/var/www/html
+      - _TB_UIDGID_FROMDIR=/var/www/html/Silverstripe
       - _TB_PHPFPM=Y
 
       - SS_DATABASE_CLASS=MySQLDatabase
