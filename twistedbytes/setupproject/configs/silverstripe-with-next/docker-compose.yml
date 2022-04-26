@@ -1,0 +1,96 @@
+version: "3.7"
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+  apachehttpd:
+    image: twistedbytes/centos8-apachehttpd
+    platform: linux/amd64
+    networks:
+      backend:
+        aliases:
+          - dockertest1.tbdocker.xyz
+    user: "${APP_USER_ID}:${APP_GROUP_ID}"
+    depends_on:
+      - php-fpm
+      - db
+    volumes:
+      - ./docker-config/apache-vhosts:/etc/httpd/vhosts.d
+      - ./docker-logs/httpd:/var/log/httpd
+      - ./src:/var/www/html
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-80}:80"
+      - "127.0.0.1:${HTTPS_PORT:-443}:443"
+    command:
+      - /usr/sbin/httpd
+      - -DFOREGROUND
+
+  php-fpm:
+    image: twistedbytes/centos8-phpfpm80
+    networks:
+      backend:
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
+      - _TB_PHPFPM=Y
+
+      - SS_DATABASE_CLASS=MySQLDatabase
+      - SS_DATABASE_SERVER=db
+      - SS_DATABASE_USERNAME=root
+      - SS_DATABASE_PASSWORD=root
+      - SS_DATABASE_NAME=silverstripe
+
+      - SS_DEFAULT_ADMIN_USERNAME=admin
+      - SS_DEFAULT_ADMIN_PASSWORD=password
+
+      - SS_ENVIRONMENT_TYPE=dev
+    volumes:
+      - ./docker-logs/phpfpm:/var/log/php-fpm
+      - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
+      - ./src/Silverstripe:/var/www/html/Silverstripe
+    command: phpfpm
+
+  php-cli:
+    image: twistedbytes/centos8-phpfpm80
+    restart: "no"
+    networks:
+      backend:
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html/Silverstripe
+      - _TB_SUDO_TOFROMDIR=Y
+    volumes:
+      - ./logs/phpfpm:/var/log/php-fpm
+      - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
+      - ./src/Silverstripe:/var/www/html/Silverstripe
+
+  next:
+    image: node:16
+    networks:
+      backend:
+        aliases:
+          - next.tbdocker.xyz
+    environment:
+      - NEXT_LOCALES=en-US
+      - NEXT_DEFAULT_LOCALE=en-US
+    volumes:
+      - ./src/next:/usr/src/app
+    command: npm run dev
+    working_dir: /usr/src/app
+    user: ${APP_USER_ID:-1000}:${APP_GROUP_ID:-1000}
+
+  db:
+    image: mariadb:10.7
+    restart: always
+    networks:
+      - backend
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - database:/var/lib/mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+
+volumes:
+  database:

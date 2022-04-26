@@ -1,0 +1,55 @@
+  ServerName ${_FRONTEND_ALIAS}
+
+  ## Vhost docroot
+  DocumentRoot "${_DOCROOT}/"
+
+  ## Directories, there should at least be a declaration for /data/docroot
+
+  <Directory "${_DOCROOT}/">
+    Options SymLinksIfOwnerMatch
+    AllowOverride AuthConfig Limit FileInfo Indexes Options
+    Require all granted
+    DirectoryIndex index.html index.php
+    CGIPassAuth On
+  </Directory>
+
+  ## Logging
+  ErrorLog "${_LOGDIR_WEB}/frontend_error.log"
+  ServerSignature Off
+  CustomLog "${_LOGDIR_WEB}/frontend_access.log" "vhost_combined_extra"
+
+  ## Custom fragment
+
+  # limit to 100MB request
+  LimitRequestBody 102400000
+
+    RequestHeader set X-Forwarded-Proto "https"
+
+    SSLProxyEngine On
+    SSLProxyVerify none
+    SSLProxyCheckPeerCN off
+    SSLProxyCheckPeerName off
+    SSLProxyCheckPeerExpire off
+    SSLProxyProtocol all
+
+    RewriteEngine on
+
+    RewriteCond %{REQUEST_URI} /_next/webpack-hmr
+    RewriteCond %{HTTP:Connection} Upgrade   [NC]
+    RewriteCond %{HTTP:Upgrade} websocket    [NC]
+    RewriteRule /_next/webpack-hmr ws://${_NEXT_HOSTNAME}:${_NEXT_PORT}/_next/webpack-hmr    [P,L]
+
+    ProxyPass / http://${_NEXT_HOSTNAME}:${_NEXT_PORT}/
+    ProxyPassReverse / http://${_NEXT_HOSTNAME}:${_NEXT_PORT}/
+
+    <LocationMatch "^/(assets|headless-api|_resources|api/search)(/|$)(.*)">
+      ProxyPass https://${_BACKEND_ALIAS}
+    </LocationMatch>
+
+    # reverse outside of locationmatch so it will not use the regex as replacement
+    ProxyPassReverse /assets https://${_BACKEND_ALIAS}/asset
+    ProxyPassReverse /_resources https://${_BACKEND_ALIAS}/_resources
+    ProxyPassReverse /headless-api https://${_BACKEND_ALIAS}/headless-api
+    ProxyPassReverse /api/search https://${_BACKEND_ALIAS}/api/search
+
+

@@ -1,10 +1,13 @@
 #!/bin/bash
 
+set -e
+set -x
+
 _TARGET_DIR=$1
 
 if [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
   echo directory is not empty, will do nothing.
-  exit 1
+  # exit 1
 fi
 
 CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -14,10 +17,11 @@ echo "*.log" > ${_TARGET_DIR}/docker-logs/httpd/.gitignore
 echo "*.log" > ${_TARGET_DIR}/docker-logs/phpfpm/.gitignore
 
 mkdir ${_TARGET_DIR}/src  || true
+mkdir ${_TARGET_DIR}/src/Silverstripe  || true
+mkdir ${_TARGET_DIR}/src/next  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
-
-composer create-project silverstripe/installer ${_TARGET_DIR}/src/
+cp -Rf ${CDIR}/docker-config ${_TARGET_DIR}/  || true
 
 if [[ -n ${_TB_UIDGID} ]]; then
   uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`

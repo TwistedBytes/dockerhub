@@ -19,3 +19,13 @@ cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
 
 composer create-project laravel/laravel ${_TARGET_DIR}/src/
 
+if [[ -n ${_TB_UIDGID} ]]; then
+  uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`
+  gid=`echo "${_TB_UIDGID}" | cut -d: -f 2`
+
+  sed -r -i \
+    -e "s/APP_USER_ID=.*/APP_USER_ID=${uid}/"  \
+    -e "s/APP_GROUP_ID=.*/APP_GROUP_ID=${gid}/"  \
+    -e "s/_TB_UIDGID=.*/_TB_UIDGID=${_TB_UIDGID}/"  \
+    ${_TARGET_DIR}/.env
+fi
