@@ -2,7 +2,7 @@ FROM twistedbytes/centos8-stream:2022.04.20.01
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.20.02" \
+      org.opencontainers.image.version="2022.04.26.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with apache"
 
@@ -35,8 +35,6 @@ RUN bash /installation/apachesetup/scripts/update-tbdocker-certs.sh
 RUN true \
     && chown -R www-data:www-data \
       /var/log/httpd /run/httpd
-
-VOLUME ["/var/www/html/public", "/var/log/httpd"]
 
 EXPOSE 80 443
 
