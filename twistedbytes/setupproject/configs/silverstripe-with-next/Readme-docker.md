@@ -5,9 +5,11 @@
 
 ## next npm install
 - docker-compose run -ti --rm next /bin/bash
+- Then execute these commands in there
     - npx create-next-app@latest app --ts --use-npm
-    - mv app/* app/.[eg]* .
+    - mv app/* app/.[a-zA-Z0-9]* .
     - rmdir app
+    - exit
 
 ## php composer install
 - docker-compose run -ti --rm php-cli

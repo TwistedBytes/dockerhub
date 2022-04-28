@@ -1,0 +1,9 @@
+version: "3.7"
+
+services:
+  next_base:
+    build:
+      context: .
+      args:
+        APP_USER_ID: ${APP_USER_ID:-0}
+        APP_GROUP_ID: ${APP_GROUP_ID:-0}

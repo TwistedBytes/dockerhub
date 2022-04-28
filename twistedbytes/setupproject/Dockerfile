@@ -2,7 +2,7 @@ FROM twistedbytes/centos8-php81:2022.04.20.02
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.26.02" \
+      org.opencontainers.image.version="2022.04.28.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Setup a directory for PHP development"
 

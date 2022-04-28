@@ -71,7 +71,9 @@ services:
       - ./src/Silverstripe:/var/www/html/Silverstripe
 
   next:
-    image: node:16
+    extends:
+      file: docker-build/next/compose-services.yml
+      service: next_base
     networks:
       backend:
         aliases:
