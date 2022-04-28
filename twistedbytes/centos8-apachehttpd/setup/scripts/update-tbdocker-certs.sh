@@ -32,3 +32,6 @@ if [[ ${CURRENTVALIDDAYS} -lt 15 ]] || [[ ! -d /etc/ssl/tbdocker.xyz ]]; then
 fi
 
 chown -Rf www-data:www-data /etc/ssl/tbdocker.xyz
+find /etc/ssl/tbdocker.xyz -type f -exec chmod 644 {} ';'
+chmod 755 /etc/ssl/tbdocker.xyz
+
