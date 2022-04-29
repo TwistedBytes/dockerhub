@@ -1,4 +1,4 @@
-FROM twistedbytes/centos8-stream:2022.04.20.01
+FROM twistedbytes/centos8-stream:2022.04.29.01
 
 ARG PHP_MAJOR_VERSION=7
 ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.4

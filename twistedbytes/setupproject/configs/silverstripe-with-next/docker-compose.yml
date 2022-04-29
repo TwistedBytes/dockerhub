@@ -13,10 +13,11 @@ services:
         aliases:
           - frontend.tbdocker.xyz
           - backend.tbdocker.xyz
-    user: ${APP_USER_ID:-1000}:${APP_GROUP_ID:-1000}
     depends_on:
       - php-fpm
       - db
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
     volumes:
       - ./docker-config/apache-vhosts:/etc/httpd/vhosts.d
       - ./docker-logs/httpd:/var/log/httpd

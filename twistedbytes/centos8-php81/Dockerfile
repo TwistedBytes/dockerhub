@@ -1,7 +1,7 @@
-FROM twistedbytes/centos8-stream:2022.04.20.01
+FROM twistedbytes/centos8-stream:2022.04.29.01
 
 ARG PHP_MAJOR_VERSION=8
-ARG PHP_MAJOR_MINOR_VERSION=8.1
+ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.1
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
