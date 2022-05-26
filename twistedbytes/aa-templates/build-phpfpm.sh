@@ -11,6 +11,7 @@ function build(){
     --build-arg CENTOS_VERSION=${CENTOS_VERSION} \
     --build-arg FROM_VERSION=${FROM_VERSION} \
     --build-arg PHP_VERSION_MAJOR=${PHP_VERSION_MAJOR} \
+    --build-arg PHP_VERSION_MINOR=${PHP_VERSION_MINOR} \
     --build-arg PHP_VERSION_MAJOR_MINOR=${PHP_VERSION_MAJOR_MINOR} \
     --build-arg IMAGE_VERSION=${IMAGE_VERSION} \
     ${TEMPLATE_DIR}
