@@ -5,6 +5,8 @@
 
 MYDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
+PUSH=0
+
 buildDir(){
   local DIR=$1
   
@@ -18,12 +20,15 @@ buildDir(){
   if [ $? -eq 1 ]; then
     echo ${PARENTPARTS[0]} | grep -q 'twistedbytes'
     if [ $? -eq 0 ]; then
-    echo first building parent: ${PARENTPARTS[0]}
-     echo ----- 
-        
+      echo first building parent: ${PARENTPARTS[0]}
+      echo -----
+      if [[ $PUSH -eq 1 ]]; then
+        ./build.sh -p ${PARENTPARTS[0]}
+      else
         ./build.sh ${PARENTPARTS[0]}
+      fi
     else
-        docker pull ${PARENT}
+      docker pull ${PARENT}
     fi 
   fi 
 
@@ -33,6 +38,11 @@ buildDir(){
   docker build --rm -t "${DIR}:${VERSION}" "${DIR}" \
   && \
   docker tag "${DIR}:${VERSION}" "${DIR}:latest"
+
+  if [[ $PUSH -eq 1 ]]; then
+    docker push "${DIR}:${VERSION}"
+    docker push "${DIR}:latest"
+  fi
 }
 
 function getVersion(){
@@ -82,6 +92,7 @@ function fixParent(){
       echo "SET PARENT ($PARENT_DIR) of ${DIR} to VERSION: ${VERSION}"
 
       sed -i -r -e "/^FROM/s/:.*/:${VERSION}/" $DIR/Dockerfile
+      sed -i -r -e "/org.opencontainers.image.version/s/=\".*\"/=\"${VERSION}\"/" $DIR/Dockerfile
     fi
   fi
 }
@@ -99,7 +110,7 @@ usage() {
 
 # http://www.bahmanm.com/blogs/command-line-options-how-to-parse-in-bash-using-getopt
 # read the options
-TEMP=`getopt -o a::d:f:: --long arga::,dir:,fix-parents:: -n 'test.sh' -- "$@"`
+TEMP=`getopt -o a::d:pf:: --long arga::,dir:,push,fix-parents:: -n 'test.sh' -- "$@"`
 eval set -- "$TEMP"
 
 while true ; do
@@ -111,6 +122,9 @@ while true ; do
       esac ;;
     -d|--dir)
       DIR=1 ; 
+      shift ;;
+    -p|--push)
+      PUSH=1 ;
       shift ;;
     -f|--fix-parents)
       fixParents
