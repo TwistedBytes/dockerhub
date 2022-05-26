@@ -43,8 +43,8 @@ declare -a _BUILDS=(
 
 for i in "${_BUILDS[@]}"; do
    IFS=, read CENTOS_VERSION PHP_VERSION_MAJOR PHP_VERSION_MINOR <<< $i
-   echo $CENTOS_VERSION
-   echo $PHP_VERSION_MAJOR
-   echo $PHP_VERSION_MINOR
+#   echo $CENTOS_VERSION
+#   echo $PHP_VERSION_MAJOR
+#   echo $PHP_VERSION_MINOR
    build
 done

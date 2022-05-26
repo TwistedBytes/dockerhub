@@ -3,6 +3,7 @@
 set -e
 
 function build(){
+  local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
   docker build \
     --rm -t "${IMAGENAME}:${IMAGE_VERSION}" \
     --build-arg CENTOS_VERSION=${CENTOS_VERSION} \
@@ -23,10 +24,15 @@ TEMPLATE_DIR=centosX-stream
 
 echo ${IMAGE_VERSION} > ${TEMPLATE_DIR}/lastbuild-version.txt
 
-CENTOS_VERSION=8
-IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
-build
 
-CENTOS_VERSION=9
-IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
-build
+# CENTOSVERSION
+declare -a _BUILDS=(
+  8
+  9
+  )
+
+for i in "${_BUILDS[@]}"; do
+   IFS=, read CENTOS_VERSION <<< $i
+   echo $CENTOS_VERSION
+   build
+done
