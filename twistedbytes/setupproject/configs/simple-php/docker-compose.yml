@@ -1,0 +1,20 @@
+version: "3.7"
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+  php-cli:
+    image: twistedbytes/centos8-phpfpm81
+    restart: "no"
+    networks:
+      backend:
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
+      - _TB_SUDO_TOFROMDIR=Y
+    volumes:
+      - ./src:/var/www/html
+
+volumes:
+  database:

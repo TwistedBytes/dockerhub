@@ -4,20 +4,14 @@ _TARGET_DIR=$1
 
 if [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
   echo directory is not empty, will do nothing.
-  # exit 1
+  exit 1
 fi
 
 CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-mkdir -p ${_TARGET_DIR}/docker-logs/{httpd,phpfpm} || true
-echo "*.log" > ${_TARGET_DIR}/docker-logs/httpd/.gitignore
-echo "*.log" > ${_TARGET_DIR}/docker-logs/phpfpm/.gitignore
-
 mkdir ${_TARGET_DIR}/src  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
-
-composer create-project laravel/laravel ${_TARGET_DIR}/src/
 
 if [[ -n ${_TB_UIDGID} ]]; then
   uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`
