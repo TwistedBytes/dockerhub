@@ -1,11 +1,11 @@
-FROM twistedbytes/centos8-stream:2022.04.29.01
+FROM twistedbytes/centos8-stream:2022.05.26.01
 
 ARG PHP_MAJOR_VERSION=8
 ARG PHP_MAJOR_MINOR_VERSION=${PHP_MAJOR_VERSION}.1
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.26.01" \
+      org.opencontainers.image.version="2022.05.26.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with base php ${PHP_MAJOR_MINOR_VERSION} from remi repo"
 
@@ -18,7 +18,7 @@ RUN true \
     && dnf -y --setopt=tsflags=nodocs install \
       php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mcrypt php-mysqlnd \
       php-pdo php-pgsql php-process php-soap php-xml php-xmlrpc php-opcache php-fpm php-cli \
-      php-pecl-zip php-sodium \
+      php-pecl-zip php-sodium php-pecl-redis5 \
     && dnf clean all \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/yum \

@@ -1,8 +1,8 @@
-FROM twistedbytes/centos8-stream:2022.04.29.01
+FROM twistedbytes/centos8-stream:2022.05.26.01
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
-      org.opencontainers.image.version="2022.04.29.01" \
+      org.opencontainers.image.version="2022.05.26.01" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos 8 with apache"
 
