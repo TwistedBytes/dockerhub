@@ -25,7 +25,7 @@ function build(){
 
 FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
 TEMPLATE_DIR=centosX-phpXX
-IMAGE_VERSION=2022.05.26.02
+IMAGE_VERSION=`date +%Y.%m.%d`.01
 PUSH=1
 
 echo ${IMAGE_VERSION} > ${TEMPLATE_DIR}/lastbuild-version.txt
