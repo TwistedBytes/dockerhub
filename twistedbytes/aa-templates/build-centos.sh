@@ -6,9 +6,9 @@ function build(){
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
   docker build \
     --rm -t "${IMAGENAME}:${IMAGE_VERSION}" \
-    --build-arg CENTOS_VERSION=${CENTOS_VERSION} \
-    --build-arg IMAGE_VERSION=${IMAGE_VERSION} \
-    ${TEMPLATE_DIR}
+    --build-arg CENTOS_VERSION="${CENTOS_VERSION}" \
+    --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
+    "${TEMPLATE_DIR}"
 
   docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
 
@@ -19,10 +19,10 @@ function build(){
 }
 
 PUSH=1
-IMAGE_VERSION=`date +%Y.%m.%d`.01
+IMAGE_VERSION=$( )date +%Y.%m.%d ).01
 TEMPLATE_DIR=centosX-stream
 
-echo ${IMAGE_VERSION} > ${TEMPLATE_DIR}/lastbuild-version.txt
+echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 
 
 # CENTOSVERSION
@@ -33,6 +33,7 @@ declare -a _BUILDS=(
 
 for i in "${_BUILDS[@]}"; do
    IFS=, read CENTOS_VERSION <<< $i
-   echo $CENTOS_VERSION
+   echo "Building:"
+   echo "CENTOS:  ${CENTOS_VERSION}"
    build
 done
