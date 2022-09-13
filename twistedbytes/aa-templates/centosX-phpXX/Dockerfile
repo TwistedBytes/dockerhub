@@ -22,9 +22,10 @@ RUN true \
     && dnf -y module install php:remi-${PHP_VERSION_MAJOR_MINOR} \
     && dnf -y --setopt=tsflags=nodocs install unzip \
     && dnf -y --setopt=tsflags=nodocs install \
-      php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mcrypt php-mysqlnd \
-      php-pdo php-pgsql php-process php-soap php-xml php-xmlrpc php-opcache php-fpm php-cli \
+      php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mysqlnd \
+      php-pdo php-pgsql php-process php-soap php-xml php-opcache php-fpm php-cli \
       php-pecl-zip php-sodium php-pecl-redis5 \
+      php-mcrypt php-xmlrpc \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer1 --1 \
     && dnf clean all \
