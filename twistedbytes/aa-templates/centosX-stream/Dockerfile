@@ -19,6 +19,9 @@ RUN bash /installation/install-gosu.sh && rm -Rf /installation
 RUN true \
     && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs upgrade \
     && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install procps-ng iputils iproute rsync openssh-clients \
+    && true
+
+RUN true \
     && dnf clean all \
     && rm -rf /tmp/* \
     && rm -rf /var/cache/yum \

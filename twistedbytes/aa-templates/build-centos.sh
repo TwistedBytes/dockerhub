@@ -19,7 +19,7 @@ function build(){
 }
 
 PUSH=1
-IMAGE_VERSION=$( )date +%Y.%m.%d ).01
+IMAGE_VERSION=$( date +%Y.%m.%d ).01
 TEMPLATE_DIR=centosX-stream
 
 echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt

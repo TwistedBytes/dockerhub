@@ -4,7 +4,7 @@ ARG FROM_VERSION
 FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
 
 # repeat ARGS because ARGS before from will not work
-ARG PHP_MAJOR_VERSION
+ARG PHP_VERSION_MAJOR
 ARG PHP_VERSION_MAJOR_MINOR
 ARG CENTOS_VERSION
 ARG IMAGE_VERSION
@@ -25,7 +25,12 @@ RUN true \
       php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mysqlnd \
       php-pdo php-pgsql php-process php-soap php-xml php-opcache php-fpm php-cli \
       php-pecl-zip php-sodium php-pecl-redis5 \
-      php-mcrypt php-xmlrpc \
+    && true
+
+RUN if [[ ${PHP_VERSION_MAJOR} -eq 7 ]]; then dnf -y --setopt=tsflags=nodocs install php-mcrypt php-xmlrpc; fi
+RUN if [[ ${PHP_VERSION_MAJOR} -eq 8 ]]; then dnf -y --setopt=tsflags=nodocs install php-pecl-mcrypt php-pecl-xmlrpc; fi
+
+RUN true \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer1 --1 \
     && dnf clean all \
