@@ -2,9 +2,15 @@
 
 GOSU_VERSION=1.14
 
+set -e
+set -x
+
 case `arch` in
   x86_64)
     _ARCH=amd64
+  ;;
+  aarch64)
+    _ARCH=arm64
   ;;
   *)
     _ARCH=`arch`
