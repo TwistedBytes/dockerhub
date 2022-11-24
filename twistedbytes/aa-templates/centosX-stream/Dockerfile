@@ -18,7 +18,8 @@ RUN bash /installation/install-gosu.sh && rm -Rf /installation
 # upgrade packages
 RUN true \
     && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs upgrade \
-    && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install procps-ng iputils iproute rsync openssh-clients git \
+    && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install \
+      procps-ng iputils iproute rsync openssh-clients git which \
     && true
 
 RUN true \

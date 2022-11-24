@@ -39,10 +39,6 @@ declare -a _BUILDS=(
   )
 
 for i in "${_BUILDS[@]}"; do
-
-   echo "Building:"
-
-for i in "${_BUILDS[@]}"; do
    IFS=@ read CENTOS_VERSION PLATFORMS <<< $i
    echo "Building:"
    echo "CENTOS:  ${CENTOS_VERSION}"
