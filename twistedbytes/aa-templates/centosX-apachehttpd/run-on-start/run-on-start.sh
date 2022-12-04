@@ -2,24 +2,20 @@
 set -e
 # set -x
 
-export _TB_START_CMD="$@"
+[[ -n $_TB_DEBUG ]] && _TB_DEBUG="-x"
 
-if [[ ${_TB_START_CMD} == "/usr/sbin/httpd -DFOREGROUND" ]]; then
-  _TB_LAST_COMMAND="gosu www-data /usr/sbin/httpd -DFOREGROUND"
-else
-  _TB_LAST_COMMAND="${_TB_START_CMD}"
+_RUNNING_ON_MAC=$( uname -a | sed -r -e 's/.*(linuxkit).*(aarch64).*/\1 \2/' )
+if [[ ${_RUNNING_ON_MAC} == "linuxkit aarch64" ]]; then
+  echo RUNNING ON MAC
+  export _TB_RUNNING_ON_MAC="yes"
 fi
 
+export _TB_START_CMD="$@"
 
 while [[ $# -gt 0 ]]; do
   key="$1"
 
   case $key in
-      debug)
-          export _TB_DEBUG="-x"
-          set ${_TB_DEBUG}
-      ;;
-
       help)
           grep -h -A1  -e '^# INPUTVAR' /aa-run-on-start/scripts/*.sh | sed -e 's/^#//g'
           exit 0
@@ -30,6 +26,8 @@ while [[ $# -gt 0 ]]; do
   shift # past argument or value
 done
 
+[[ -f /command.txt ]] && rm /command.txt
+
 if [[ -d /aa-run-on-start/scripts ]]; then
   for i in /aa-run-on-start/scripts/*.sh; do
     [[ -n $_TB_DEBUG ]] && echo running $i;
@@ -38,4 +36,4 @@ if [[ -d /aa-run-on-start/scripts ]]; then
   done
 fi
 
-exec ${_TB_LAST_COMMAND}
+exec $( cat /command.txt )

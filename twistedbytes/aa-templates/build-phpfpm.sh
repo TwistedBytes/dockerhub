@@ -52,9 +52,9 @@ declare -a _BUILDS=(
 for i in "${_BUILDS[@]}"; do
    IFS=@ read CENTOS_VERSION PHP_VERSION_MAJOR PHP_VERSION_MINOR PLATFORMS <<< $i
    echo "Building:"
-   echo "FROM:    ${FROM_VERSION}"
    echo "CENTOS:  ${CENTOS_VERSION}"
    echo "PLATFORMS:  ${PLATFORMS}"
+   echo "FROM:    ${FROM_VERSION}"
    echo "PHP:     ${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}"
    build
 done

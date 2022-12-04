@@ -1,0 +1,46 @@
+version: "3.7"
+
+networks:
+  backend:
+    driver: ${NETWORKS_DRIVER}
+
+services:
+  apachehttpd:
+    image: twistedbytes/centos9-apachehttpd
+    networks:
+      backend:
+        aliases:
+          - tentipi-dev-global.tbdocker.xyz # frontend
+          - tentipi-dev-sweden.tbdocker.xyz # frontend
+          - tentipi-dev-silverstripe.tbdocker.xyz # backend
+          - tentipi-dev-sylius.tbdocker.xyz # backend
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
+      # - _TB_DEBUG=true
+    volumes:
+      # - ./docker-config/apache-vhosts:/etc/httpd/vhosts.d
+      - ./docker-logs/httpd:/var/log/httpd
+      - ./src:/var/www/html
+    ports:
+      - "127.0.0.1:${HTTP_PORT:-80}:80"
+      - "127.0.0.1:${HTTPS_PORT:-443}:443"
+
+  php-fpm:
+    image: twistedbytes/centos9-phpfpm80
+    networks:
+      - backend
+#    depends_on:
+#      - db
+    working_dir: /var/www/html/Sylius/
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
+      # - _TB_DEBUG=true
+      - SSH_AUTH_SOCK=/ssh-agent
+      - _TB_INSTALL_PACKAGES=php-pecl-openswoole,php-pecl-ssh2,php-pecl-imagick-im7,php-pecl-event
+    volumes:
+      - ./docker-logs/php-sylius:/var/log/php-fpm
+      - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
+      - ./src:/var/www/html:delegated
+      - ./.composer:/home/www-data/.composer
+      - ~/.ssh:/home/www-data/.ssh
+      - "$SSH_AUTH_SOCK:/ssh-agent"

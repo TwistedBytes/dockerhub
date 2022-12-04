@@ -16,7 +16,7 @@
   ## Logging
   ErrorLog "${_LOGDIR_WEB}/dev_error.log"
   ServerSignature Off
-  CustomLog "${_LOGDIR_WEB}/dev_access.log" "vhost_combined_extra"
+  CustomLog "${_LOGDIR_WEB}/dev_access.log" "cvhost_combined_extra"
 
   ## Custom fragment
 

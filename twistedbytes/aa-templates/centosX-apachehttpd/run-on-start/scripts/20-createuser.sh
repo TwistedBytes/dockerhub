@@ -1,10 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
 #-- help section
 # INPUTVAR _TB_UIDGID
 #     Value: "<uid>:<gid>", ex: 1000:100. Sets the uid and gid for the internal www-data user. Created files will be owned by that user
 # INPUTVAR _TB_UIDGID_FROMDIR
 #     Value: A path, alternative for _TB_UIDGID to get the uid/gid from that dir in the docker. Need to set a volume to use
+# INPUTVAR TB_IS_MAC
+#     Value: Y or N. Set to Y when running on Mac and permissions on files are set to mac user running this.
 
 #-- end help section, keep 1 line free above
 
@@ -13,6 +15,10 @@ if [[ -d ${_TB_UIDGID_FROMDIR} ]]; then
   gid=$(stat -c '%g' "$_TB_UIDGID_FROMDIR")
 
   export _TB_UIDGID=${uid}:${gid}
+fi
+
+if [[ ${_TB_RUNNING_ON_MAC} == "yes" ]]; then
+  export _TB_UIDGID=1000:1000
 fi
 
 if [[ -z ${_TB_UIDGID} ]] ; then
@@ -63,7 +69,7 @@ if [ "$old_user_id" != "${APP_USER_ID}" ]; then
     mkdir -p /home/${APP_USER} && chmod 755 /home/${APP_USER} && chown ${APP_USER}:${APP_GROUP} /home/${APP_USER}
 
     # change the user id, set the home directory and make sure the user has a login shell
-    usermod -u ${APP_USER_ID} -m -d /home/${APP_USER} ${APP_USER} -s $(which bash)
+    usermod -u ${APP_USER_ID} -m -o -d /home/${APP_USER} ${APP_USER} -s $(which bash)
 #
 #    if [ "$old_user_exists" = "0" ]; then
 #        # set the permissions of all "old" files and folder to the new user

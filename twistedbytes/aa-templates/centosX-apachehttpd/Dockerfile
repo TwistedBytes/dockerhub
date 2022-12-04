@@ -16,7 +16,9 @@ COPY ./setup/repo/twistedbytes.repo /etc/yum.repos.d/twistedbytes.repo
 
 RUN true \
     && dnf -y --setopt=tsflags=nodocs install epel-release.noarch \
-    && dnf -y --setopt=tsflags=nodocs install httpd httpd-tools mod_ssl mod_http2 wget openssl
+    && dnf -y --setopt=tsflags=nodocs install httpd httpd-tools mod_ssl mod_http2 wget openssl \
+    && dnf -y --setopt=tsflags=nodocs update libnghttp2 \
+    && true
 
 COPY ${SERVICE_DIR}/setup /installation/
 RUN bash /installation/scripts/install_apache.sh && rm -Rf /installation

@@ -17,7 +17,7 @@ function build(){
     --build-arg FROM_VERSION="${FROM_VERSION}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --push \
-    "${TEMPLATE_DIR}"
+    "${TEMPLATE_DIR}" &
 
 #  docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
 #
@@ -28,7 +28,7 @@ function build(){
 }
 
 PUSH=1
-IMAGE_VERSION=$( date +%Y.%m.%d ).01
+IMAGE_VERSION=$( date +%Y.%m.%d ).02
 TEMPLATE_DIR=centosX-apachehttpd
 FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
 
