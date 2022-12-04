@@ -19,8 +19,10 @@ RUN bash /installation/install-gosu.sh && rm -Rf /installation
 RUN true \
     && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs upgrade \
     && dnf -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install \
-      procps-ng iputils iproute rsync openssh-clients git which \
+      procps-ng iputils iproute rsync openssh-clients git which sudo \
     && true
+
+RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/10_all
 
 RUN true \
     && dnf clean all \
