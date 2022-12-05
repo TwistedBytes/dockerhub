@@ -16,7 +16,6 @@ function build(){
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --build-arg YUMDNF="${YUMDNF}" \
     --build-arg BASE_IMAGE="${BASE_IMAGE}" \
-    --progress plain \
     --push \
     "${TEMPLATE_DIR}"
 
@@ -38,9 +37,9 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # CENTOSVERSION
 declare -a _BUILDS=(
   7@linux/amd64,linux/arm64
-  # 8@linux/amd64,linux/arm64
-  # 9@linux/amd64,linux/arm64
-  )
+  8@linux/amd64,linux/arm64
+  9@linux/amd64,linux/arm64
+)
 
 for i in "${_BUILDS[@]}"; do
   IFS=@ read CENTOS_VERSION PLATFORMS <<< $i

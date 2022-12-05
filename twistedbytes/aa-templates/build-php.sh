@@ -18,6 +18,7 @@ function build(){
     --build-arg PHP_VERSION_MAJOR="${PHP_VERSION_MAJOR}" \
     --build-arg PHP_VERSION_MAJOR_MINOR="${PHP_VERSION_MAJOR_MINOR}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
+    --build-arg YUMDNF="${YUMDNF}" \
     --push \
     "${TEMPLATE_DIR}"
 
@@ -49,11 +50,18 @@ declare -a _BUILDS=(
   )
 
 for i in "${_BUILDS[@]}"; do
-   IFS=@ read CENTOS_VERSION PHP_VERSION_MAJOR PHP_VERSION_MINOR PLATFORMS <<< $i
-   echo "Building:"
-   echo "CENTOS:  ${CENTOS_VERSION}"
-   echo "PLATFORMS:  ${PLATFORMS}"
-   echo "FROM:    ${FROM_VERSION}"
-   echo "PHP:     ${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}"
-   build
+  IFS=@ read CENTOS_VERSION PHP_VERSION_MAJOR PHP_VERSION_MINOR PLATFORMS <<< $i
+
+  if [[ $CENTOS_VERSION -eq 7 ]]; then
+    YUMDNF=yum
+  else
+    YUMDNF=dnf
+  fi
+
+  echo "Building:"
+  echo "CENTOS:  ${CENTOS_VERSION}"
+  echo "PLATFORMS:  ${PLATFORMS}"
+  echo "FROM:    ${FROM_VERSION}"
+  echo "PHP:     ${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}"
+  build
 done
