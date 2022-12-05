@@ -5,6 +5,7 @@ FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
 
 ARG CENTOS_VERSION
 ARG IMAGE_VERSION
+ARG YUMDNF
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
@@ -15,19 +16,17 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
 COPY ./setup/repo/twistedbytes.repo /etc/yum.repos.d/twistedbytes.repo
 
 RUN true \
-    && dnf -y --setopt=tsflags=nodocs install epel-release.noarch \
-    && dnf -y --setopt=tsflags=nodocs install httpd httpd-tools mod_ssl mod_http2 wget openssl \
-    && dnf -y --setopt=tsflags=nodocs update libnghttp2 \
+    && ${YUMDNF} -y --setopt=tsflags=nodocs install epel-release.noarch \
+    && ${YUMDNF} -y --setopt=tsflags=nodocs install httpd httpd-tools mod_ssl mod_http2 wget openssl \
+    && ${YUMDNF} -y --setopt=tsflags=nodocs update libnghttp2 \
     && true
 
 COPY ${SERVICE_DIR}/setup /installation/
 RUN bash /installation/scripts/install_apache.sh && rm -Rf /installation
 
 RUN true \
-    && dnf clean all \
+    && ${YUMDNF} clean all \
     && rm -rf /tmp/* \
-    && rm -rf /var/cache/yum \
-    && rm -rf /var/cache/dnf \
     && find /var/log -type f -name '*.log' -delete \
     && true
 

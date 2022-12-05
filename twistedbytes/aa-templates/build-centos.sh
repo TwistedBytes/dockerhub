@@ -14,6 +14,9 @@ function build(){
     -t "${IMAGENAME}:latest" \
     --build-arg CENTOS_VERSION="${CENTOS_VERSION}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
+    --build-arg YUMDNF="${YUMDNF}" \
+    --build-arg BASE_IMAGE="${BASE_IMAGE}" \
+    --progress plain \
     --push \
     "${TEMPLATE_DIR}"
 
@@ -34,14 +37,23 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 
 # CENTOSVERSION
 declare -a _BUILDS=(
-  8@linux/amd64,linux/arm64
-  9@linux/amd64,linux/arm64
+  7@linux/amd64,linux/arm64
+  # 8@linux/amd64,linux/arm64
+  # 9@linux/amd64,linux/arm64
   )
 
 for i in "${_BUILDS[@]}"; do
-   IFS=@ read CENTOS_VERSION PLATFORMS <<< $i
-   echo "Building:"
-   echo "CENTOS:  ${CENTOS_VERSION}"
-   echo "PLATFORMS:  ${PLATFORMS}"
-   build
+  IFS=@ read CENTOS_VERSION PLATFORMS <<< $i
+  if [[ $CENTOS_VERSION -eq 7 ]]; then
+    BASE_IMAGE=centos:centos${CENTOS_VERSION}
+    YUMDNF=yum
+  else
+    BASE_IMAGE=quay.io/centos/centos:stream${CENTOS_VERSION}
+    YUMDNF=dnf
+  fi
+
+  echo "Building:"
+  echo "CENTOS:  ${CENTOS_VERSION}"
+  echo "PLATFORMS:  ${PLATFORMS}"
+  build
 done
