@@ -16,6 +16,7 @@ echo "*.log" > ${_TARGET_DIR}/docker-logs/phpfpm/.gitignore
 mkdir ${_TARGET_DIR}/src  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
+cp -Rf ${CDIR}/docker-config ${_TARGET_DIR}/  || true
 
 composer create-project silverstripe/installer ${_TARGET_DIR}/src/
 

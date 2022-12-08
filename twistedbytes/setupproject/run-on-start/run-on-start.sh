@@ -2,6 +2,18 @@
 set -e
 # set -x
 
+[[ -n $_TB_DEBUG ]] && _TB_DEBUG="-x"
+
+_RUNNING_ON_MAC=$( uname -a | sed -r -e 's/.*(linuxkit).*(aarch64|x86_64).*/\1 \2/' )
+if [[ ${_RUNNING_ON_MAC} == "linuxkit aarch64" ]]; then
+  echo RUNNING ON MAC M1
+  export _TB_RUNNING_ON_MAC="yes"
+fi
+if [[ ${_RUNNING_ON_MAC} == "linuxkit x86_64" ]]; then
+  echo RUNNING ON MAC Intel
+  export _TB_RUNNING_ON_MAC="yes"
+fi
+
 export _TB_START_CMD="$@"
 
 _TB_LAST_COMMAND="/bin/bash"

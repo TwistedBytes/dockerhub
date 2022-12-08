@@ -17,6 +17,9 @@ docker run -ti --rm \
 twistedbytes/setupproject \
 -u $(id -u):$(id -g) \
 --projecttype simple-silverstripe
+
+cd $PWD/tb-silverstripe-test
+
 ```
 
 ## With Next

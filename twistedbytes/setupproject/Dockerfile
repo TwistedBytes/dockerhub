@@ -1,4 +1,4 @@
-FROM twistedbytes/centos8-php81:2022.05.26.02
+FROM twistedbytes/centos9-php81:latest
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \

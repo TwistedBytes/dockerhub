@@ -6,7 +6,7 @@ networks:
 
 services:
   apachehttpd:
-    image: twistedbytes/centos8-apachehttpd
+    image: twistedbytes/centos9-apachehttpd:latest
     platform: linux/amd64
     networks:
       backend:
@@ -24,21 +24,21 @@ services:
     ports:
       - "127.0.0.1:${HTTP_PORT:-80}:80"
       - "127.0.0.1:${HTTPS_PORT:-443}:443"
-    command:
-      - /usr/sbin/httpd
-      - -DFOREGROUND
 
   php-fpm:
-    image: twistedbytes/centos8-phpfpm81
+    image: twistedbytes/centos9-phpfpm81:latest
+    extra_hosts:
+      - host.docker.internal:host-gateway
     networks:
       backend:
     environment:
+      - _TB_INSTALL_PACKAGES=php-pecl-xdebug3
       - _TB_UIDGID_FROMDIR=/var/www/html
       - _TB_PHPFPM=Y
     volumes:
       - ./docker-logs/phpfpm:/var/log/php-fpm
+      - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
       - ./src:/var/www/html
-    command: phpfpm
 
   php-cli:
     image: twistedbytes/centos8-phpfpm81
