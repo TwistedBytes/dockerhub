@@ -13,3 +13,8 @@ docker run -v /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static -it --pl
 docker buildx build --platform arm64 -t twisted/centos8-arm64  --load --progress plain .
 
 docker run -v /usr/bin/qemu-aarch64-static:/usr/bin/qemu-aarch64-static -ti --rm twisted/centos8-arm64
+
+
+# # # activate arm64
+
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes

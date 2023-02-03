@@ -1,0 +1,45 @@
+ARG CENTOS_VERSION
+ARG FROM_VERSION
+
+FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
+
+# repeat ARGS because ARGS before from will not work
+ARG CENTOS_VERSION
+ARG IMAGE_VERSION
+ARG YUMDNF
+
+LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
+      org.opencontainers.image.vendor="Twisted Bytes B.V." \
+      org.opencontainers.image.version="${IMAGE_VERSION}" \
+      org.opencontainers.image.url="https://www.twistedbytes.nl" \
+      org.opencontainers.image.description="Centos ${CENTOS_VERSION} with rpmbuild tools"
+
+
+RUN ${YUMDNF} clean all && \
+  ${YUMDNF} -y update
+
+RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
+  	cpp gcc-c++ cmake git psmisc {binutils,boost,jemalloc,freetype}-devel \
+	{sqlite,tbb,bzip2,openldap,readline,elfutils-libelf,gmp,lz4,pcre}-devel \
+	lib{xslt,event,yaml,vpx,png,zip,icu,mcrypt,memcached,cap,dwarf,jpeg-turbo}-devel \
+	{unixODBC,expat,mariadb}-devel lib{edit,curl,xml2,xslt}-devel \
+	glog-devel oniguruma-devel ocaml make ImageMagick-devel glib2-devel \
+	prelink flex bison libc-client-devel \
+	pam-devel gd-devel fastlz-devel fribidi-devel \
+	wget
+
+RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
+
+ADD inputc_addon.txt /etc/
+
+RUN cat /etc/inputc_addon.txt >> /etc/inputrc && rm /etc/inputc_addon.txt
+
+# default command
+CMD ["/bin/false"]
+
+RUN true \
+    && ${YUMDNF} clean all \
+    && rm -rf /tmp/* \
+    && rm -rf /var/cache/yum /var/cache/dnf \
+    && find /var/log -type f -name '*.log' -delete \
+    && true
