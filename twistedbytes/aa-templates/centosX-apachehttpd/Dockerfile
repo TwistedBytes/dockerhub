@@ -14,6 +14,7 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.description="Centos ${CENTOS_VERSION}  with apache"
 
 COPY ./setup/repo/twistedbytes.repo /etc/yum.repos.d/twistedbytes.repo
+COPY ./setup/repo/centos${CENTOS_VERSION}/*.repo /etc/yum.repos.d/
 
 RUN true \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install epel-release.noarch \

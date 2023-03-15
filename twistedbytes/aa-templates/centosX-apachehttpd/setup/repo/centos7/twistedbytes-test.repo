@@ -1,0 +1,7 @@
+[twistedbytesrepo-test]
+name=twistedbytes centos repo test
+baseurl=https://repository.twistedbytes.eu/centos/$releasever-test/
+enabled=1
+gpgcheck=0
+priority=99
+module_hotfixes=1
