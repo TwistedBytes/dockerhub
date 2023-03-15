@@ -39,8 +39,8 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # CENTOSVERSION
 declare -a _BUILDS=(
   7@linux/amd64
-#  8@linux/amd64
-#  9@linux/amd64,linux/arm64
+  8@linux/amd64
+  9@linux/amd64,linux/arm64
 )
 
 for i in "${_BUILDS[@]}"; do
