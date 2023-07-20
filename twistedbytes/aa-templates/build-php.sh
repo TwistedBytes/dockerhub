@@ -20,7 +20,7 @@ function build(){
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --build-arg YUMDNF="${YUMDNF}" \
     --push \
-    "${TEMPLATE_DIR}" &
+    "${TEMPLATE_DIR}"
 
 #  docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
 #
