@@ -6,6 +6,7 @@ FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
 # repeat ARGS because ARGS before from will not work
 ARG PHP_VERSION_MAJOR
 ARG PHP_VERSION_MAJOR_MINOR
+ARG PHP_VERSION_MAJOR_MINOR2
 ARG CENTOS_VERSION
 ARG IMAGE_VERSION
 ARG YUMDNF
@@ -17,10 +18,8 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.description="Centos ${CENTOS_VERSION} with base php ${PHP_VERSION_MAJOR_MINOR} from remi repo"
 
 RUN true \
-    && ${YUMDNF} -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${CENTOS_VERSION}.noarch.rpm \
     && ${YUMDNF} -y install https://rpms.remirepo.net/enterprise/remi-release-${CENTOS_VERSION}.rpm \
-    && ${YUMDNF} -y module reset php \
-    && ${YUMDNF} -y module install php:remi-${PHP_VERSION_MAJOR_MINOR} \
+    && yum-config-manager --save --enable remi-php${PHP_VERSION_MAJOR_MINOR2} \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install unzip \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install \
       php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mysqlnd \
@@ -28,7 +27,7 @@ RUN true \
       php-pecl-zip php-sodium php-pecl-redis5 \
     && true
 
-RUN if [[ ${PHP_VERSION_MAJOR} -eq 7 ]]; then ${YUMDNF} -y --setopt=tsflags=nodocs install php-mcrypt php-xmlrpc; fi
+RUN if [[ ${PHP_VERSION_MAJOR} -le 7 ]]; then ${YUMDNF} -y --setopt=tsflags=nodocs install php-mcrypt php-xmlrpc; fi
 RUN if [[ ${PHP_VERSION_MAJOR} -eq 8 ]]; then ${YUMDNF} -y --setopt=tsflags=nodocs install php-pecl-mcrypt php-pecl-xmlrpc; fi
 
 RUN true \

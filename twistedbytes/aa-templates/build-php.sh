@@ -6,7 +6,14 @@ function build(){
   docker buildx use mybuilder
 
   local PHP_VERSION_MAJOR_MINOR=${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}
-  local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-php${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
+  local PHP_VERSION_MAJOR_MINOR2=${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
+  local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-php${PHP_VERSION_MAJOR_MINOR2}
+
+  if [[ $CENTOS_VERSION -eq 7 ]]; then
+    _DOCKERFILE="${TEMPLATE_DIR}/Dockerfile-centos${CENTOS_VERSION}"
+  else
+    _DOCKERFILE="${TEMPLATE_DIR}/Dockerfile"
+  fi
 
   docker buildx build \
     --platform ${PLATFORMS} \
@@ -17,9 +24,11 @@ function build(){
     --build-arg FROM_VERSION="${FROM_VERSION}" \
     --build-arg PHP_VERSION_MAJOR="${PHP_VERSION_MAJOR}" \
     --build-arg PHP_VERSION_MAJOR_MINOR="${PHP_VERSION_MAJOR_MINOR}" \
+    --build-arg PHP_VERSION_MAJOR_MINOR2="${PHP_VERSION_MAJOR_MINOR2}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --build-arg YUMDNF="${YUMDNF}" \
     --push \
+    -f "${_DOCKERFILE}" \
     "${TEMPLATE_DIR}"
 
 #  docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
@@ -40,6 +49,7 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
+  7@5@6@linux/amd64
   8@7@4@linux/amd64
   8@8@0@linux/amd64
   8@8@1@linux/amd64
