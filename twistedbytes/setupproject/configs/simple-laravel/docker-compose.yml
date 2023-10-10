@@ -16,7 +16,7 @@ services:
       - php-fpm
       - db
     environment:
-      - _TB_UIDGID_FROMDIR=/var/www/html
+      - _TB_UIDGID_FROMDIR=/var/www/html/public
     volumes:
       # - ./docker-config/apache-vhosts:/etc/httpd/vhosts.d
       - ./docker-logs/httpd:/var/log/httpd

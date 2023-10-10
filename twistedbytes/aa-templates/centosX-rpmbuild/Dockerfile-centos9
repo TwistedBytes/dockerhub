@@ -15,7 +15,9 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.description="Centos ${CENTOS_VERSION} with rpmbuild tools"
 
 
-RUN ${YUMDNF} install -y python3-dnf-plugins-core
+RUN ${YUMDNF} install -y python3-dnf-plugins-core \
+    && ${YUMDNF} config-manager --set-enabled crb \
+    && ${YUMDNF} groupinstall -y "Development Tools"
 
 RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
           	cpp gcc-c++ cmake git psmisc {binutils,boost}-devel \

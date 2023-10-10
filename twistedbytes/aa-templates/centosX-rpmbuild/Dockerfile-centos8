@@ -16,7 +16,8 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
 
 
 RUN ${YUMDNF} install -y python3-dnf-plugins-core \
-    && ${YUMDNF} config-manager --set-enabled powertools
+    && ${YUMDNF} config-manager --set-enabled powertools \
+    && ${YUMDNF} groupinstall -y "Development Tools"
 
 RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
           	cpp gcc-c++ cmake git psmisc {binutils,boost}-devel \
