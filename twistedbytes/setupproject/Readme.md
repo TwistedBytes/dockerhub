@@ -19,6 +19,7 @@ twistedbytes/setupproject \
 --projecttype simple-silverstripe
 
 cd $PWD/tb-silverstripe-test
+docker compose up
 
 ```
 

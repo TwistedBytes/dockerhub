@@ -17,6 +17,7 @@ fi
 export _TB_START_CMD="$@"
 
 _TB_LAST_COMMAND="/bin/bash"
+export _TB_FORCE_USE_DIR="N"
 
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -33,6 +34,9 @@ while [[ $# -gt 0 ]]; do
       --projecttype | -p)
         export _TB_CONFIG="$2"
         shift # past argument
+      ;;
+      --forcedir | -f)
+        export _TB_FORCE_USE_DIR=Y
       ;;
 
       help)

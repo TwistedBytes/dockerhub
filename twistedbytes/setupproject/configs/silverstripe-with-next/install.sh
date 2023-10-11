@@ -5,9 +5,9 @@ set -e
 
 _TARGET_DIR=$1
 
-if [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
+if [[ ${_TB_FORCE_USE_DIR} != "Y" ]] && [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
   echo directory is not empty, will do nothing.
-  # exit 1
+  exit 1
 fi
 
 CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
@@ -15,6 +15,7 @@ CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 mkdir -p ${_TARGET_DIR}/docker-logs/{httpd,phpfpm} || true
 echo "*.log" > ${_TARGET_DIR}/docker-logs/httpd/.gitignore
 echo "*.log" > ${_TARGET_DIR}/docker-logs/phpfpm/.gitignore
+echo ".idea/" > ${_TARGET_DIR}/.gitignore
 
 mkdir ${_TARGET_DIR}/src  || true
 mkdir ${_TARGET_DIR}/src/Silverstripe  || true
@@ -23,7 +24,7 @@ mkdir ${_TARGET_DIR}/src/next  || true
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
 cp -Rf ${CDIR}/docker-config ${_TARGET_DIR}/  || true
 cp -Rf ${CDIR}/docker-build ${_TARGET_DIR}/  || true
-cp -Rf ${CDIR}/Readme-docker.md ${_TARGET_DIR}/  || true
+cp -Rf ${CDIR}/README-docker.md ${_TARGET_DIR}/  || true
 
 if [[ -n ${_TB_UIDGID} ]]; then
   uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`

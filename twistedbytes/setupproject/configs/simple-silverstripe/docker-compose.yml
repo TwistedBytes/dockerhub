@@ -26,7 +26,7 @@ services:
       - "127.0.0.1:${HTTPS_PORT:-443}:443"
 
   php-fpm:
-    image: twistedbytes/centos9-phpfpm81:latest
+    image: twistedbytes/centos9-phpfpm82:latest
     extra_hosts:
       - host.docker.internal:host-gateway
     networks:
@@ -34,6 +34,7 @@ services:
     environment:
       - _TB_UIDGID_FROMDIR=/var/www/html
       - _TB_PHPFPM=Y
+      # - _TB_INSTALL_PACKAGES=php-pecl-xdebug3
 
       - SS_DATABASE_CLASS=MySQLDatabase
       - SS_DATABASE_SERVER=db
@@ -45,14 +46,28 @@ services:
       - SS_DEFAULT_ADMIN_PASSWORD=password
 
       - SS_ENVIRONMENT_TYPE=dev
-      - _TB_INSTALL_PACKAGES=php-pecl-xdebug3
+
     volumes:
       - ./docker-logs/phpfpm:/var/log/php-fpm
-      - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
+      # - ./docker-config/php/zz-xdebug.ini:/etc/php.d/16-xdebug.ini
+      - ./src:/var/www/html
+
+  php-cli:
+    image: twistedbytes/centos9-php82:latest
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: "no"
+    networks:
+      backend:
+    environment:
+      - _TB_UIDGID_FROMDIR=/var/www/html
+      - _TB_SUDO_TOFROMDIR=Y
+    volumes:
+      - ./docker-logs/phpfpm:/var/log/php-fpm
       - ./src:/var/www/html
 
   db:
-    image: mariadb:10.8
+    image: mariadb:10.11
     restart: always
     networks:
       - backend

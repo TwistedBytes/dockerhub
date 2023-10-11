@@ -2,4 +2,4 @@
 
 
 
-bash /configs/${_TB_CONFIG}/install.sh /projectroot
+bash ${_TB_DEBUG} /configs/${_TB_CONFIG}/install.sh /projectroot

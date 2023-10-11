@@ -2,7 +2,7 @@
 
 _TARGET_DIR=$1
 
-if [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
+if [[ ${_TB_FORCE_USE_DIR} != "Y" ]] && [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
   echo directory is not empty, will do nothing.
   exit 1
 fi
@@ -12,11 +12,13 @@ CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 mkdir -p ${_TARGET_DIR}/docker-logs/{httpd,phpfpm} || true
 echo "*.log" > ${_TARGET_DIR}/docker-logs/httpd/.gitignore
 echo "*.log" > ${_TARGET_DIR}/docker-logs/phpfpm/.gitignore
+echo ".idea/" > ${_TARGET_DIR}/.gitignore
 
 mkdir ${_TARGET_DIR}/src  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
 cp -Rf ${CDIR}/docker-config ${_TARGET_DIR}/  || true
+cp -Rf ${CDIR}/README-docker.md ${_TARGET_DIR}/  || true
 
 composer create-project silverstripe/installer ${_TARGET_DIR}/src/
 
@@ -30,3 +32,16 @@ if [[ -n ${_TB_UIDGID} ]]; then
     -e "s/_TB_UIDGID=.*/_TB_UIDGID=${_TB_UIDGID}/"  \
     ${_TARGET_DIR}/.env
 fi
+
+cat << EOT > ${_TARGET_DIR}/src/.env.tbhosting
+# DB credentials
+SS_DATABASE_CLASS="MySQLDatabase"
+SS_DATABASE_SERVER="@@@DB_HOSTNAME@@@"
+SS_DATABASE_USERNAME="@@@DB_USERNAME@@@"
+SS_DATABASE_PASSWORD="@@@DB_PASSWORD@@@"
+SS_DATABASE_NAME="@@@DB_DATABASE@@@"
+
+# WARNING: in a live environment, change this to "live" instead of dev
+SS_ENVIRONMENT_TYPE="dev"
+
+EOT

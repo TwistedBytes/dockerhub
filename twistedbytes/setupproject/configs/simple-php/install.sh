@@ -2,7 +2,7 @@
 
 _TARGET_DIR=$1
 
-if [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
+if [[ ${_TB_FORCE_USE_DIR} != "Y" ]] && [[ `find $_TARGET_DIR | tail -n 1` != $_TARGET_DIR ]];then
   echo directory is not empty, will do nothing.
   exit 1
 fi
@@ -12,6 +12,7 @@ CDIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 mkdir ${_TARGET_DIR}/src  || true
 
 cp ${CDIR}/.env ${CDIR}/docker-compose.yml ${_TARGET_DIR}/  || true
+echo ".idea/" > ${_TARGET_DIR}/.gitignore
 
 if [[ -n ${_TB_UIDGID} ]]; then
   uid=`echo "${_TB_UIDGID}" | cut -d: -f 1`
