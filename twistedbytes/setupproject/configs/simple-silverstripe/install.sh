@@ -33,15 +33,5 @@ if [[ -n ${_TB_UIDGID} ]]; then
     ${_TARGET_DIR}/.env
 fi
 
-cat << EOT > ${_TARGET_DIR}/src/.env.tbhosting
-# DB credentials
-SS_DATABASE_CLASS="MySQLDatabase"
-SS_DATABASE_SERVER="@@@DB_HOSTNAME@@@"
-SS_DATABASE_USERNAME="@@@DB_USERNAME@@@"
-SS_DATABASE_PASSWORD="@@@DB_PASSWORD@@@"
-SS_DATABASE_NAME="@@@DB_DATABASE@@@"
-
-# WARNING: in a live environment, change this to "live" instead of dev
-SS_ENVIRONMENT_TYPE="dev"
-
-EOT
+cp -Rf ${CDIR}/env.tbhosting.dev ${_TARGET_DIR}/src/.env.dev  || true
+cp -Rf ${CDIR}/env.tbhosting.prod ${_TARGET_DIR}/src/.env.prod  || true
