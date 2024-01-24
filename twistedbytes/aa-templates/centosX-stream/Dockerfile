@@ -14,7 +14,11 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.description="Centos ${CENTOS_VERSION} Stream base image from centos:centos8"
 
 COPY ./setup/ /installation/
-RUN bash /installation/install-gosu.sh && rm -Rf /installation
+RUN true \
+    && bash /installation/install-gosu.sh \
+    && bash /installation/dnf.sh  \
+    && rm -Rf /installation \
+    && true
 
 # upgrade packages
 RUN true \
@@ -24,6 +28,10 @@ RUN true \
     && true
 
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/10_all
+
+ADD inputc_addon.txt /etc/
+
+RUN cat /etc/inputc_addon.txt >> /etc/inputrc && rm /etc/inputc_addon.txt
 
 RUN true \
     && ${YUMDNF} clean all \

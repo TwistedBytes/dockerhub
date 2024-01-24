@@ -8,6 +8,7 @@ function build(){
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-rpmbuild
 
   docker buildx build \
+    --progress plain \
     --platform ${PLATFORMS} \
     --rm \
     -t "${IMAGENAME}:${IMAGE_VERSION}" \
@@ -38,7 +39,7 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
-  7@linux/amd64,linux/arm64
+  # 7@linux/amd64,linux/arm64
   8@linux/amd64,linux/arm64
   9@linux/amd64,linux/arm64
   )

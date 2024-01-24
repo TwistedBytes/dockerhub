@@ -28,12 +28,7 @@ RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
         	flex bison \
         	wget rsync
 
-
 RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
-
-ADD inputc_addon.txt /etc/
-
-RUN cat /etc/inputc_addon.txt >> /etc/inputrc && rm /etc/inputc_addon.txt
 
 # default command
 CMD ["/bin/false"]

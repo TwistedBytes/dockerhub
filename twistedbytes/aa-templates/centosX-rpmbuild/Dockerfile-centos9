@@ -14,7 +14,6 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
       org.opencontainers.image.description="Centos ${CENTOS_VERSION} with rpmbuild tools"
 
-
 RUN ${YUMDNF} install -y python3-dnf-plugins-core \
     && ${YUMDNF} config-manager --set-enabled crb \
     && ${YUMDNF} groupinstall -y "Development Tools"
@@ -28,12 +27,7 @@ RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
         	flex bison \
         	wget rsync
 
-
 RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
-
-ADD inputc_addon.txt /etc/
-
-RUN cat /etc/inputc_addon.txt >> /etc/inputrc && rm /etc/inputc_addon.txt
 
 # default command
 CMD ["/bin/false"]

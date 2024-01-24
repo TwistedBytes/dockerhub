@@ -53,18 +53,10 @@ services:
       - ./src:/var/www/html
 
   php-cli:
-    image: twistedbytes/centos9-php82:latest
-    extra_hosts:
-      - host.docker.internal:host-gateway
-    restart: "no"
-    networks:
-      backend:
-    environment:
-      - _TB_UIDGID_FROMDIR=/var/www/html
-      - _TB_SUDO_TOFROMDIR=Y
-    volumes:
-      - ./docker-logs/phpfpm:/var/log/php-fpm
-      - ./src:/var/www/html
+    extends:
+      service: php-fpm
+    working_dir: /var/www/html/public
+    command: gosu www-data bash
 
   db:
     image: mariadb:10.11

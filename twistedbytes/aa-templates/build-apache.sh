@@ -9,6 +9,7 @@ function build(){
 
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-apachehttpd
   docker buildx build \
+    --progress plain \
     --platform ${PLATFORMS} \
     --rm \
     -t "${IMAGENAME}:${IMAGE_VERSION}" \
