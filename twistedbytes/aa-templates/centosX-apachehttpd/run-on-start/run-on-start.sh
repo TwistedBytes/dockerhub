@@ -14,6 +14,12 @@ if [[ ${_RUNNING_ON_MAC} == "linuxkit x86_64" ]]; then
   export _TB_RUNNING_ON_MAC="yes"
 fi
 
+_TB_CONTAINER_TYPE=unknown
+[[ ${container} == oci ]] && _TB_CONTAINER_TYPE=docker
+[[ ${container} == podman ]] && _TB_CONTAINER_TYPE=podman
+export _TB_CONTAINER_TYPE
+echo Container type: ${_TB_CONTAINER_TYPE}
+
 export _TB_START_CMD="$@"
 
 while [[ $# -gt 0 ]]; do

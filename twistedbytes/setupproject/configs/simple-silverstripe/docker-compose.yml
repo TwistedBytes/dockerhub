@@ -7,7 +7,6 @@ networks:
 services:
   apachehttpd:
     image: twistedbytes/centos9-apachehttpd:latest
-    platform: linux/amd64
     networks:
       backend:
         aliases:

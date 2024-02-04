@@ -60,16 +60,23 @@ if [ "$old_group_id" != "${APP_GROUP_ID}" ]; then
 fi
 
 if [ "$old_user_id" != "${APP_USER_ID}" ]; then
+    if [[ ${_TB_CONTAINER_TYPE} == "podman" ]]; then
+      _usermod_args="--non-unique"
+      echo "doing a podman fix with uid"
+    else
+      _usermod_args=""
+    fi
+
     # create the user if it does not exist
     if [ "$old_user_exists" != "0" ]; then
-        useradd ${APP_USER} -g ${APP_GROUP}
+        useradd ${_usermod_args} -u ${APP_USER_ID} ${APP_USER} -g ${APP_GROUP}
     fi
 
     # make sure the home directory exists with the correct permissions
     mkdir -p /home/${APP_USER} && chmod 755 /home/${APP_USER} && chown ${APP_USER}:${APP_GROUP} /home/${APP_USER}
 
     # change the user id, set the home directory and make sure the user has a login shell
-    usermod -u ${APP_USER_ID} -m -d /home/${APP_USER} ${APP_USER} -s $(which bash)
+    usermod ${_usermod_args} -u ${APP_USER_ID} -m -d /home/${APP_USER} ${APP_USER} -s $(which bash)
 #
 #    if [ "$old_user_exists" = "0" ]; then
 #        # set the permissions of all "old" files and folder to the new user
