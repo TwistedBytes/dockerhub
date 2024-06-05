@@ -7,7 +7,7 @@ function build(){
   docker buildx use mybuilder
 
   if [[ ${PLATFORMS} == 'linux/arm64' ]]; then
-    continue
+    next
   fi
 
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
