@@ -30,7 +30,7 @@ function build(){
 }
 
 PUSH=1
-IMAGE_VERSION=$( date +%Y.%m.%d ).02
+IMAGE_VERSION=$( date +%Y.%m.%d ).01
 TEMPLATE_DIR=centosX-apachehttpd
 FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
 

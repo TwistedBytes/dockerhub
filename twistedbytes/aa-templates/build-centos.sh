@@ -6,6 +6,10 @@ set -e
 function build(){
   docker buildx use mybuilder
 
+  if [[ ${PLATFORMS} == 'linux/arm64' ]]; then
+    continue
+  fi
+
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-stream
   docker buildx build \
     --progress plain \
@@ -37,9 +41,9 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 
 # CENTOSVERSION
 declare -a _BUILDS=(
-  7@linux/amd64,linux/arm64
-  #8@linux/amd64,linux/arm64
-  #9@linux/amd64,linux/arm64
+  #7@linux/amd64,linux/arm64
+  8@linux/amd64,linux/arm64
+  9@linux/amd64,linux/arm64
 )
 
 for i in "${_BUILDS[@]}"; do
