@@ -18,6 +18,11 @@ RUN if [[ ${CENTOS_VERSION} -eq 8 ]]; then     sed -i -r \
                                                   -e 's|#baseurl=http://mirror.centos.org|baseurl=https://centos-repo.twistedbytes.eu|g' \
                                                   /etc/yum.repos.d/CentOS-Stream*.repo; fi
 
+RUN if [[ ${CENTOS_VERSION} -eq 7 ]]; then   sed -i -r \
+                                             -e 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' \
+                                             -e 's|#baseurl=http://mirror.centos.org|baseurl=https://centos-repo.twistedbytes.eu|g' \
+                                             /etc/yum.repos.d/CentOS-*.repo; fi
+
 COPY ./setup/ /installation/
 RUN true \
     && bash /installation/install-gosu.sh \
