@@ -50,6 +50,7 @@ declare -a _BUILDS=(
   8@8@1@linux/amd64,linux/arm64
   8@8@2@linux/amd64,linux/arm64
   8@8@3@linux/amd64,linux/arm64
+  9@7@4@linux/amd64,linux/arm64
   9@8@0@linux/amd64,linux/arm64
   9@8@1@linux/amd64,linux/arm64
   9@8@2@linux/amd64,linux/arm64
