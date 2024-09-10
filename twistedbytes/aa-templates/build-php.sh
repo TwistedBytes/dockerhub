@@ -50,7 +50,7 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
-  # 7@5@6@linux/amd64 #,linux/arm64
+  7@5@6@linux/amd64 #,linux/arm64
   8@7@2@linux/amd64,linux/arm64
   8@7@3@linux/amd64,linux/arm64
   8@7@4@linux/amd64,linux/arm64
@@ -63,7 +63,7 @@ declare -a _BUILDS=(
   9@8@1@linux/amd64,linux/arm64
   9@8@2@linux/amd64,linux/arm64
   9@8@3@linux/amd64,linux/arm64
-  # 9@8@4@linux/amd64,linux/arm64
+  9@8@4@linux/amd64,linux/arm64
   )
 
 for i in "${_BUILDS[@]}"; do
