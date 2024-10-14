@@ -17,7 +17,7 @@ if [[ -d ${_TB_UIDGID_FROMDIR} ]]; then
   export _TB_UIDGID=${uid}:${gid}
 fi
 
-if [[ ${_TB_RUNNING_ON_MAC} == "yes" ]]; then
+if [[ ${_TB_RUNNING_ON_MAC} == "yes" ]] || [[ ${container} == "podman" ]]; then
   export _TB_UIDGID=1000:1000
 fi
 
