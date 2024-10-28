@@ -7,5 +7,5 @@
 #-- end help section, keep 1 line free above
 if [[ -n ${_TB_INSTALL_PACKAGES} ]]; then
   echo ${_TB_INSTALL_PACKAGES} | sed -r -e 's/,/ /g' | \
-  xargs dnf -y install
+  xargs ${YUMDNF} -y install
 fi

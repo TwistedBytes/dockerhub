@@ -5,5 +5,5 @@
 
 #-- end help section, keep 1 line free above
 if [[ ${_TB_INSTALL_GIT} == y ]]; then
-  rpm -qa | grep -q ^git || dnf -y install git
+  rpm -qa | grep -q ^git || ${YUMDNF} -y install git
 fi

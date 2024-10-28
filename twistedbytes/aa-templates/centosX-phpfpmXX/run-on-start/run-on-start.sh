@@ -18,9 +18,16 @@ _TB_CONTAINER_TYPE=unknown
 [[ ${container} == oci ]] && _TB_CONTAINER_TYPE=docker
 [[ ${container} == podman ]] && _TB_CONTAINER_TYPE=podman
 export _TB_CONTAINER_TYPE
-echo Container type: ${_TB_CONTAINER_TYPE}
+# echo Container type: ${_TB_CONTAINER_TYPE}
 
 export _TB_START_CMD="$@"
+
+. /etc/os-release
+if [[ $VERSION_ID -eq 7 ]]; then
+  export YUMDNF=yum
+else
+  export YUMDNF=dnf
+fi
 
 while [[ $# -gt 0 ]]; do
   key="$1"

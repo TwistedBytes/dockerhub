@@ -14,7 +14,7 @@ if [[ ${_TB_INSTALL_PHPEXT_LIST} == "y" ]]; then
   rpm -qa | grep ^php
 
   echo "available packages: "
-  dnf -y -q search ${_PHP_PREFIX} | grep ^${_PHP_PREFIX}
+  ${YUMDNF} -y -q search ${_PHP_PREFIX} | grep ^${_PHP_PREFIX}
   exit
 fi
 
@@ -27,5 +27,5 @@ if [[ -n ${_TB_INSTALL_PHPEXT} ]]; then
 
   echo "Installing ${package_list}"
   # shellcheck disable=SC2068
-  dnf install -y ${package_list[@]}
+  ${YUMDNF} install -y ${package_list[@]}
 fi
