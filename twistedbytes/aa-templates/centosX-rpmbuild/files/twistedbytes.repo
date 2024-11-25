@@ -1,0 +1,12 @@
+[twistedbtyesrepo]
+name=twistedbtyes centos repo
+baseurl=http://repository.twistedbytes.eu/centos/$releasever/
+enabled=1
+gpgcheck=0
+priority=99
+[twistedbtyesrepo-test]
+name=twistedbtyes centos repo test
+baseurl=http://repository.twistedbytes.eu/centos/$releasever-test/
+enabled=1
+gpgcheck=0
+priority=1

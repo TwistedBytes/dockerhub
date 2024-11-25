@@ -25,9 +25,13 @@ RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
         	expat-devel libcurl-devel \
         	make glib2-devel automake libtool \
         	flex bison \
-        	wget rsync
+        	wget rsync \
+            epel-release.noarch
+RUN ${YUMDNF} -y install epel-rpm-macros.noarch createrepo
 
 RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
+
+COPY ./files/*.repo /etc/yum.repos.d/
 
 # default command
 CMD ["/bin/false"]

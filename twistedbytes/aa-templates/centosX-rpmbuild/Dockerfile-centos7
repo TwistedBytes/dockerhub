@@ -26,9 +26,13 @@ RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
 	glog-devel oniguruma-devel ocaml make ImageMagick-devel glib2-devel \
 	prelink flex bison libc-client-devel \
 	pam-devel gd-devel fastlz-devel fribidi-devel \
-	wget
+	wget \
+    epel-release.noarch
+RUN ${YUMDNF} -y install epel-rpm-macros.noarch createrepo python3-rpm-macros.noarch python*-rpm-macros* systemd-rpm-macros
 
 RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
+
+COPY ./files/*.repo /etc/yum.repos.d/
 
 # default command
 CMD ["/bin/false"]
