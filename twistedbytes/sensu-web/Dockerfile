@@ -1,9 +1,9 @@
-FROM node:15-alpine3.12
+FROM node:20-alpine3.20
 
 WORKDIR /opt/sensu/web
 
 RUN apk add git && \
-    git clone https://github.com/alrf/sensu-web.git . && \
+    git clone https://github.com/TwistedBytes/sensu-web.git . && \
     yarn install && \
     yarn install --modules-folder /opt/sensu/yarn/node_modules
 
