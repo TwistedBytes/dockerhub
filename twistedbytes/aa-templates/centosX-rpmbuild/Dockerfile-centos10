@@ -1,0 +1,44 @@
+ARG CENTOS_VERSION
+ARG FROM_VERSION
+
+FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
+
+# repeat ARGS because ARGS before from will not work
+ARG CENTOS_VERSION
+ARG IMAGE_VERSION
+ARG YUMDNF
+
+LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
+      org.opencontainers.image.vendor="Twisted Bytes B.V." \
+      org.opencontainers.image.version="${IMAGE_VERSION}" \
+      org.opencontainers.image.url="https://www.twistedbytes.nl" \
+      org.opencontainers.image.description="Centos ${CENTOS_VERSION} with rpmbuild tools"
+
+RUN ${YUMDNF} install -y python3-dnf-plugins-core \
+    && ${YUMDNF} config-manager --set-enabled crb \
+    && ${YUMDNF} groupinstall -y "Development Tools"
+
+RUN ${YUMDNF} -y install rpmdevtools.noarch rpm-build autoconf \
+          	cpp gcc-c++ cmake git psmisc {binutils,boost}-devel \
+        	{sqlite,tbb,bzip2,openldap,readline,elfutils-libelf,gmp,lz4}-devel \
+        	lib{event,icu,cap}-devel \
+        	expat-devel libcurl-devel \
+        	make glib2-devel automake libtool \
+        	flex bison \
+        	wget rsync \
+            epel-release.noarch
+RUN ${YUMDNF} -y install epel-rpm-macros.noarch createrepo
+
+RUN mkdir -p /root/rpmbuild/{SPECS,SOURCES}/
+
+COPY ./files/*.repo /etc/yum.repos.d/
+
+# default command
+CMD ["/bin/false"]
+
+RUN true \
+    && ${YUMDNF} clean all \
+    && rm -rf /tmp/* \
+    && rm -rf /var/cache/yum /var/cache/dnf \
+    && find /var/log -type f -name '*.log' -delete \
+    && true

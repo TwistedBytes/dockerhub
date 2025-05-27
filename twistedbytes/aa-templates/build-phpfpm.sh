@@ -7,6 +7,7 @@ function build(){
 
   local PHP_VERSION_MAJOR_MINOR=${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
+  local IMAGENAME_EL=twistedbytes/el-${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
 
   docker buildx build \
     --progress plain \
@@ -14,6 +15,8 @@ function build(){
     --rm \
     -t "${IMAGENAME}:${IMAGE_VERSION}" \
     -t "${IMAGENAME}:latest" \
+    -t "${IMAGENAME_EL}:${IMAGE_VERSION}" \
+    -t "${IMAGENAME_EL}:latest" \
     --build-arg CENTOS_VERSION="${CENTOS_VERSION}" \
     --build-arg FROM_VERSION="${FROM_VERSION}" \
     --build-arg PHP_VERSION_MAJOR="${PHP_VERSION_MAJOR}" \
@@ -42,9 +45,9 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
-  7@5@6@linux/amd64 #,linux/arm64
-  7@7@0@linux/amd64 #,linux/arm64
-  7@7@1@linux/amd64 #,linux/arm64
+#  7@5@6@linux/amd64 #,linux/arm64
+#  7@7@0@linux/amd64 #,linux/arm64
+#  7@7@1@linux/amd64 #,linux/arm64
 
   8@7@2@linux/amd64,linux/arm64
   8@7@3@linux/amd64,linux/arm64
@@ -60,6 +63,8 @@ declare -a _BUILDS=(
   9@8@2@linux/amd64,linux/arm64
   9@8@3@linux/amd64,linux/arm64
   9@8@4@linux/amd64,linux/arm64
+
+  10@8@4@linux/amd64,linux/arm64
   )
 
 for i in "${_BUILDS[@]}"; do

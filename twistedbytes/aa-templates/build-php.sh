@@ -8,11 +8,17 @@ function build(){
   local PHP_VERSION_MAJOR_MINOR=${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}
   local PHP_VERSION_MAJOR_MINOR2=${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-php${PHP_VERSION_MAJOR_MINOR2}
+  local IMAGENAME_EL=twistedbytes/el-${CENTOS_VERSION}-php${PHP_VERSION_MAJOR_MINOR2}
+
+  local REMI_EXTRAVERSION=""
 
   if [[ $CENTOS_VERSION -eq 7 ]]; then
     _DOCKERFILE="${TEMPLATE_DIR}/Dockerfile-centos${CENTOS_VERSION}"
   else
     _DOCKERFILE="${TEMPLATE_DIR}/Dockerfile"
+  fi
+  if [[ $CENTOS_VERSION -eq 8 ]]; then
+    REMI_EXTRAVERSION=".9"
   fi
 
   docker buildx build \
@@ -21,12 +27,15 @@ function build(){
     --rm \
     -t "${IMAGENAME}:${IMAGE_VERSION}" \
     -t "${IMAGENAME}:latest" \
+    -t "${IMAGENAME_EL}:${IMAGE_VERSION}" \
+    -t "${IMAGENAME_EL}:latest" \
     --build-arg CENTOS_VERSION="${CENTOS_VERSION}" \
     --build-arg FROM_VERSION="${FROM_VERSION}" \
     --build-arg PHP_VERSION_MAJOR="${PHP_VERSION_MAJOR}" \
     --build-arg PHP_VERSION_MINOR="${PHP_VERSION_MINOR}" \
     --build-arg PHP_VERSION_MAJOR_MINOR="${PHP_VERSION_MAJOR_MINOR}" \
     --build-arg PHP_VERSION_MAJOR_MINOR2="${PHP_VERSION_MAJOR_MINOR2}" \
+    --build-arg REMI_EXTRAVERSION="${REMI_EXTRAVERSION}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --build-arg YUMDNF="${YUMDNF}" \
     --push \
@@ -51,9 +60,9 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
-  7@5@6@linux/amd64 #,linux/arm64
-  7@7@0@linux/amd64 #,linux/arm64
-  7@7@1@linux/amd64 #,linux/arm64
+#  7@5@6@linux/amd64 #,linux/arm64
+#  7@7@0@linux/amd64 #,linux/arm64
+#  7@7@1@linux/amd64 #,linux/arm64
 
   8@7@2@linux/amd64,linux/arm64
   8@7@3@linux/amd64,linux/arm64
@@ -69,6 +78,8 @@ declare -a _BUILDS=(
   9@8@2@linux/amd64,linux/arm64
   9@8@3@linux/amd64,linux/arm64
   9@8@4@linux/amd64,linux/arm64
+
+  10@8@4@linux/amd64,linux/arm64
   )
 
 for i in "${_BUILDS[@]}"; do
@@ -77,7 +88,7 @@ for i in "${_BUILDS[@]}"; do
   if [[ $CENTOS_VERSION -eq 7 ]]; then
     YUMDNF=yum
   else
-    YUMDNF=dnf
+    YUMDNF="dnf"
   fi
 
   echo "Building:"

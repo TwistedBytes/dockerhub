@@ -10,6 +10,7 @@ ARG PHP_VERSION_MAJOR_MINOR
 ARG CENTOS_VERSION
 ARG IMAGE_VERSION
 ARG YUMDNF
+ARG REMI_EXTRAVERSION
 
 LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
@@ -19,7 +20,7 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
 
 RUN true \
     && ${YUMDNF} -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-${CENTOS_VERSION}.noarch.rpm \
-    && ${YUMDNF} -y install https://rpms.remirepo.net/enterprise/remi-release-${CENTOS_VERSION}.rpm \
+    && ${YUMDNF} -y install https://rpms.remirepo.net/enterprise/remi-release-${CENTOS_VERSION}${REMI_EXTRAVERSION}.rpm \
     && ${YUMDNF} -y module reset php \
     && ${YUMDNF} -y module install php:remi-${PHP_VERSION_MAJOR_MINOR} \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install unzip \
