@@ -32,7 +32,7 @@ function build(){
 PUSH=1
 IMAGE_VERSION=$( date +%Y.%m.%d ).01
 TEMPLATE_DIR=centosX-apachehttpd
-FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
+FROM_VERSION=$( cat centosX-el/lastbuild-version.txt )
 
 echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 
@@ -42,6 +42,7 @@ declare -a _BUILDS=(
   7@linux/amd64
   8@linux/amd64
   9@linux/amd64,linux/arm64
+  10@linux/amd64,linux/arm64
 )
 
 for i in "${_BUILDS[@]}"; do

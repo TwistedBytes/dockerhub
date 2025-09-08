@@ -50,7 +50,7 @@ function build(){
 #  fi
 }
 
-FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
+FROM_VERSION=$( cat centosX-el/lastbuild-version.txt )
 TEMPLATE_DIR=centosX-phpXX
 IMAGE_VERSION=$( date +%Y.%m.%d ).01
 PUSH=1

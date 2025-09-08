@@ -34,14 +34,14 @@ function build(){
 
 PUSH=1
 IMAGE_VERSION=$( date +%Y.%m.%d ).01
-TEMPLATE_DIR=centosX-stream
+TEMPLATE_DIR=centosX-el
 
 echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 
 
 # CENTOSVERSION
 declare -a _BUILDS=(
-  7@linux/amd64 #,linux/arm64
+  # 7@linux/amd64 #,linux/arm64
   8@linux/amd64,linux/arm64
   9@linux/amd64,linux/arm64
   10@linux/amd64,linux/arm64
@@ -53,7 +53,8 @@ for i in "${_BUILDS[@]}"; do
     BASE_IMAGE=centos:centos${CENTOS_VERSION}
     YUMDNF=yum
   else
-    BASE_IMAGE=quay.io/centos/centos:stream${CENTOS_VERSION}
+    # BASE_IMAGE=quay.io/centos/centos:stream${CENTOS_VERSION}
+    BASE_IMAGE=docker.io/library/almalinux:${CENTOS_VERSION}
     YUMDNF=dnf
   fi
 

@@ -11,12 +11,12 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
       org.opencontainers.image.vendor="Twisted Bytes B.V." \
       org.opencontainers.image.version="${IMAGE_VERSION}" \
       org.opencontainers.image.url="https://www.twistedbytes.nl" \
-      org.opencontainers.image.description="Centos ${CENTOS_VERSION} Stream base image from centos:centos8"
+      org.opencontainers.image.description="EL ${CENTOS_VERSION} Base image from ${BASE_IMAGE}"
 
-RUN if [[ ${CENTOS_VERSION} -eq 8 ]]; then     sed -i -r \
-                                                  -e 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' \
-                                                  -e 's|#baseurl=http://mirror.centos.org|baseurl=https://centos-repo.twistedbytes.eu|g' \
-                                                  /etc/yum.repos.d/CentOS-Stream*.repo; fi
+#RUN if [[ ${CENTOS_VERSION} -eq 8 ]]; then     sed -i -r \
+#                                                  -e 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' \
+#                                                  -e 's|#baseurl=http://mirror.centos.org|baseurl=https://centos-repo.twistedbytes.eu|g' \
+#                                                  /etc/yum.repos.d/CentOS-Stream*.repo; fi
 
 RUN if [[ ${CENTOS_VERSION} -eq 7 ]]; then   sed -i -r \
                                              -e 's|mirrorlist=http://mirrorlist.centos.org|#mirrorlist=http://mirrorlist.centos.org|g' \

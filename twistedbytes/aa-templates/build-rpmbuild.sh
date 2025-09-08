@@ -32,7 +32,7 @@ function build(){
 #  fi
 }
 
-FROM_VERSION=$( cat centosX-stream/lastbuild-version.txt )
+FROM_VERSION=$( cat centosX-el/lastbuild-version.txt )
 TEMPLATE_DIR=centosX-rpmbuild
 IMAGE_VERSION=$( date +%Y.%m.%d ).01
 PUSH=1
@@ -43,8 +43,8 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
 #  7@linux/amd64 #,linux/arm64
-#  8@linux/amd64,linux/arm64
-#  9@linux/amd64,linux/arm64
+  8@linux/amd64,linux/arm64
+  9@linux/amd64,linux/arm64
   10@linux/amd64,linux/arm64
   )
 
