@@ -1,7 +1,7 @@
 ARG CENTOS_VERSION
 ARG FROM_VERSION
 
-FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
+FROM twistedbytes/el-${CENTOS_VERSION}:${FROM_VERSION}
 
 # repeat ARGS because ARGS before from will not work
 ARG CENTOS_VERSION

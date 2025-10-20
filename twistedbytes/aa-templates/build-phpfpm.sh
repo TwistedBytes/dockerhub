@@ -6,8 +6,9 @@ function build(){
   docker buildx use mybuilder
 
   local PHP_VERSION_MAJOR_MINOR=${PHP_VERSION_MAJOR}.${PHP_VERSION_MINOR}
-  local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
-  local IMAGENAME_EL=twistedbytes/el-${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
+  local PHP_VERSION_MAJOR_MINOR2=${PHP_VERSION_MAJOR}${PHP_VERSION_MINOR}
+  local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR_MINOR2}
+  local IMAGENAME_EL=twistedbytes/el-${CENTOS_VERSION}-phpfpm${PHP_VERSION_MAJOR_MINOR2}
 
   if [[ "$MAINIMAGE" == "nomain" ]]; then
     IMAGENAME_MAIN=""
@@ -72,6 +73,7 @@ declare -a _BUILDS=(
   9@8@4@linux/amd64,linux/arm64@nomain
 
   10@8@4@linux/amd64,linux/arm64@main
+  10@8@5@linux/amd64,linux/arm64@main
   )
 
 for i in "${_BUILDS[@]}"; do

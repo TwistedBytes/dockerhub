@@ -87,6 +87,7 @@ declare -a _BUILDS=(
   9@8@4@linux/amd64,linux/arm64@nomain
 
   10@8@4@linux/amd64,linux/arm64@main
+  10@8@5@linux/amd64,linux/arm64@main
   )
 
 for i in "${_BUILDS[@]}"; do
