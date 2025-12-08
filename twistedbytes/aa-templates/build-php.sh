@@ -47,7 +47,7 @@ function build(){
     --build-arg YUMDNF="${YUMDNF}" \
     --push \
     -f "${_DOCKERFILE}" \
-    "${TEMPLATE_DIR}"
+    "${TEMPLATE_DIR}" &
 
 #  docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
 #
@@ -83,9 +83,10 @@ declare -a _BUILDS=(
   9@8@0@linux/amd64,linux/arm64@main
   9@8@1@linux/amd64,linux/arm64@main
   9@8@2@linux/amd64,linux/arm64@main
-  9@8@3@linux/amd64,linux/arm64@main
+  9@8@3@linux/amd64,linux/arm64@nomain
   9@8@4@linux/amd64,linux/arm64@nomain
 
+  10@8@3@linux/amd64,linux/arm64@main
   10@8@4@linux/amd64,linux/arm64@main
   10@8@5@linux/amd64,linux/arm64@main
   )

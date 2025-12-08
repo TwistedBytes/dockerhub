@@ -13,7 +13,7 @@ function build(){
   if [[ "$MAINIMAGE" == "nomain" ]]; then
     IMAGENAME_MAIN=""
   else
-    IMAGENAME_MAIN="-t twistedbytes/php${PHP_VERSION_MAJOR_MINOR2} -t twistedbytes/php${PHP_VERSION_MAJOR_MINOR2}:latest"
+    IMAGENAME_MAIN="-t twistedbytes/phpfpm${PHP_VERSION_MAJOR_MINOR2} -t twistedbytes/phpfpm${PHP_VERSION_MAJOR_MINOR2}:latest"
   fi
 
   docker buildx build \
@@ -33,7 +33,7 @@ function build(){
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
     --build-arg YUMDNF="${YUMDNF}" \
     --push \
-    "${TEMPLATE_DIR}"
+    "${TEMPLATE_DIR}" &
 
 #  docker tag "${IMAGENAME}:${IMAGE_VERSION}" "${IMAGENAME}:latest"
 #
@@ -69,9 +69,10 @@ declare -a _BUILDS=(
   9@8@0@linux/amd64,linux/arm64@main
   9@8@1@linux/amd64,linux/arm64@main
   9@8@2@linux/amd64,linux/arm64@main
-  9@8@3@linux/amd64,linux/arm64@main
+  9@8@3@linux/amd64,linux/arm64@nomain
   9@8@4@linux/amd64,linux/arm64@nomain
 
+  10@8@3@linux/amd64,linux/arm64@main
   10@8@4@linux/amd64,linux/arm64@main
   10@8@5@linux/amd64,linux/arm64@main
   )

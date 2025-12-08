@@ -59,7 +59,7 @@ for i in "${_BUILDS[@]}"; do
   fi
 
   echo "Building:"
-  echo "CENTOS:  ${CENTOS_VERSION}"
+  echo "EL:  ${CENTOS_VERSION}"
   echo "PLATFORMS:  ${PLATFORMS}"
   build
 done

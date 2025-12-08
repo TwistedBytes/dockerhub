@@ -23,7 +23,8 @@ export _TB_CONTAINER_TYPE
 export _TB_START_CMD="$@"
 
 . /etc/os-release
-if [[ $VERSION_ID -eq 7 ]]; then
+VERSION_ID_INT=$( echo "scale=0; ${VERSION_ID}/1" | bc)
+if [[ $VERSION_ID_INT -eq 7 ]]; then
   export YUMDNF=yum
 else
   export YUMDNF=dnf

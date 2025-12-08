@@ -34,7 +34,7 @@ RUN true \
 RUN true \
     && ${YUMDNF} -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs upgrade \
     && ${YUMDNF} -y --setopt=install_weak_deps=False --setopt=tsflags=nodocs install \
-      procps-ng iputils iproute rsync openssh-clients git which sudo \
+      procps-ng iputils iproute rsync openssh-clients git which sudo bc unzip zip sshpass \
     && true
 
 RUN echo 'ALL ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/10_all

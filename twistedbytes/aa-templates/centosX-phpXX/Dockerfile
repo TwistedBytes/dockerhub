@@ -23,8 +23,7 @@ RUN true \
     && ${YUMDNF} -y install https://rpms.remirepo.net/enterprise/remi-release-${CENTOS_VERSION}${REMI_EXTRAVERSION}.rpm \
     && ${YUMDNF} -y module reset php \
     && ${YUMDNF} -y module install php:remi-${PHP_VERSION_MAJOR_MINOR} \
-    && ${YUMDNF} -y --setopt=tsflags=nodocs install unzip \
-    && ${YUMDNF} -y --setopt=tsflags=nodocs install \
+    && ${YUMDNF} -y --setopt=tsflags=nodocs install unzip zip sshpass \
       php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mysqlnd \
       php-pdo php-pgsql php-process php-soap php-xml php-opcache php-fpm php-cli \
       php-pecl-zip php-sodium php-pecl-redis5 \
