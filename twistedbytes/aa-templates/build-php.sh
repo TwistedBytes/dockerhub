@@ -67,28 +67,30 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # centos8 aarch64 does not have a remi repo
 # CENTOSVERSION, PHP_MAJ, PHP_MIN PLATFORMS
 declare -a _BUILDS=(
-#  7@5@6@linux/amd64 #,linux/arm64@main
-#  7@7@0@linux/amd64 #,linux/arm64@main
-#  7@7@1@linux/amd64 #,linux/arm64@main
+7@5@4@linux/amd64 #,linux/arm64@main
 
-  8@7@2@linux/amd64,linux/arm64@main
-  8@7@3@linux/amd64,linux/arm64@main
-#  8@7@4@linux/amd64,linux/arm64@nomain
-#  8@8@0@linux/amd64,linux/arm64@nomain
-#  8@8@1@linux/amd64,linux/arm64@nomain
-#  8@8@2@linux/amd64,linux/arm64@nomain
-#  8@8@3@linux/amd64,linux/arm64@nomain
-
-  9@7@4@linux/amd64,linux/arm64@main
-  9@8@0@linux/amd64,linux/arm64@main
-  9@8@1@linux/amd64,linux/arm64@main
-  9@8@2@linux/amd64,linux/arm64@main
-  9@8@3@linux/amd64,linux/arm64@nomain
-  9@8@4@linux/amd64,linux/arm64@nomain
-
-  10@8@3@linux/amd64,linux/arm64@main
-  10@8@4@linux/amd64,linux/arm64@main
-  10@8@5@linux/amd64,linux/arm64@main
+##  7@5@6@linux/amd64 #,linux/arm64@main
+##  7@7@0@linux/amd64 #,linux/arm64@main
+##  7@7@1@linux/amd64 #,linux/arm64@main
+#
+#  8@7@2@linux/amd64,linux/arm64@main
+#  8@7@3@linux/amd64,linux/arm64@main
+##  8@7@4@linux/amd64,linux/arm64@nomain
+##  8@8@0@linux/amd64,linux/arm64@nomain
+##  8@8@1@linux/amd64,linux/arm64@nomain
+##  8@8@2@linux/amd64,linux/arm64@nomain
+##  8@8@3@linux/amd64,linux/arm64@nomain
+#
+#  9@7@4@linux/amd64,linux/arm64@main
+#  9@8@0@linux/amd64,linux/arm64@main
+#  9@8@1@linux/amd64,linux/arm64@main
+#  9@8@2@linux/amd64,linux/arm64@main
+#  9@8@3@linux/amd64,linux/arm64@nomain
+#  9@8@4@linux/amd64,linux/arm64@nomain
+#
+#  10@8@3@linux/amd64,linux/arm64@main
+#  10@8@4@linux/amd64,linux/arm64@main
+#  10@8@5@linux/amd64,linux/arm64@main
   )
 
 for i in "${_BUILDS[@]}"; do

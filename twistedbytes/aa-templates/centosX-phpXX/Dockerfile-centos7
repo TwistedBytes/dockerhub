@@ -1,7 +1,8 @@
 ARG CENTOS_VERSION
 ARG FROM_VERSION
 
-FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
+# FROM twistedbytes/centos${CENTOS_VERSION}-stream:${FROM_VERSION}
+FROM docker.io/twistedbytes/centos7-stream:latest
 
 # repeat ARGS because ARGS before from will not work
 ARG PHP_VERSION_MAJOR
@@ -19,12 +20,16 @@ LABEL org.opencontainers.image.authors="info@twistedbytes.nl" \
 
 RUN true \
     && ${YUMDNF} -y install https://rpms.remirepo.net/enterprise/remi-release-${CENTOS_VERSION}.rpm \
+    && sed -i -r \
+       -e 's|mirrorlist=|#mirrorlist=|g' \
+       -e 's|#baseurl=|baseurl=|g' \
+       /etc/yum.repos.d/remi-php54.repo \
     && yum-config-manager --save --enable remi-php${PHP_VERSION_MAJOR_MINOR2} \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install unzip \
     && ${YUMDNF} -y --setopt=tsflags=nodocs install \
       php-common php-bcmath php-dba php-gd php-gmp php-imap php-intl php-mbstring php-mysqlnd \
       php-pdo php-pgsql php-process php-soap php-xml php-opcache php-fpm php-cli \
-      php-pecl-zip php-sodium php-pecl-redis5 \
+      php-sodium php-pecl-redis5 \
     && true
 
 RUN if [[ ${PHP_VERSION_MAJOR} -le 7 ]]; then ${YUMDNF} -y --setopt=tsflags=nodocs install php-mcrypt php-xmlrpc; fi
