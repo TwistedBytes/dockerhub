@@ -17,18 +17,27 @@ RUN yum -y install rpmdevtools.noarch rpm-build autoconf \
 	wget httpd-tools httpd-devel httpd vim mysql-devel postgresql-devel
 
 # RUN curl -O https://mail.gnome.org/archives/xml/2012-August/txtbgxGXAvz4N.txt
-RUN curl -O https://museum.php.net/php5/php-5.3.29.tar.gz
-RUN tar xzfv php-5.3.29.tar.gz && rm -f php-5.3.29.tar.gz
+RUN curl -O https://museum.php.net/php5/php-5.3.29.tar.gz && \
+      tar xzfv php-5.3.29.tar.gz && rm -f php-5.3.29.tar.gz
 RUN cd php* \
-    && ./configure --with-apxs2 \
+    && ./configure \
+      --with-apxs2 \
+      --with-curl --with-openssl \
       --with-pgsql --with-pdo-pgsql \
       --with-mysql --with-mysqli --with-pdo-mysql --with-libdir=lib64 \
     && make -j 2 \
     && make install \
+    && cd .. && rm php* -Rf \
     && true
+
+RUN yum -y install epel-release \
+    && yum -y install msmtp
 
 RUN echo "DirectoryIndex index.html index.php" >>  /etc/httpd/conf/httpd.conf
 RUN echo "AddHandler application/x-httpd-php .php" >>  /etc/httpd/conf/httpd.conf
+RUN echo "sendmail_path = \"/usr/bin/msmtp -t -C /etc/msmtprc -a default\"" > /usr/local/lib/php.ini
+
+ADD httpd.conf /etc/httpd/conf/httpd.conf
 
 EXPOSE 80
 
