@@ -8,12 +8,16 @@ function build(){
   docker buildx use mybuilder
 
   local IMAGENAME=twistedbytes/centos${CENTOS_VERSION}-apachehttpd
+  local IMAGENAME_EL=twistedbytes/el-${CENTOS_VERSION}-apachehttpd
+
   docker buildx build \
     --progress plain \
     --platform ${PLATFORMS} \
     --rm \
     -t "${IMAGENAME}:${IMAGE_VERSION}" \
     -t "${IMAGENAME}:latest" \
+    -t "${IMAGENAME_EL}:${IMAGE_VERSION}" \
+    -t "${IMAGENAME_EL}:latest" \
     --build-arg CENTOS_VERSION="${CENTOS_VERSION}" \
     --build-arg FROM_VERSION="${FROM_VERSION}" \
     --build-arg IMAGE_VERSION="${IMAGE_VERSION}" \
@@ -40,9 +44,9 @@ echo "${IMAGE_VERSION}" > ${TEMPLATE_DIR}/lastbuild-version.txt
 # CENTOSVERSION
 declare -a _BUILDS=(
   #7@linux/amd64
-  8@linux/amd64
-  9@linux/amd64,linux/arm64
-  10@linux/amd64,linux/arm64
+#  8@linux/amd64
+#  9@linux/amd64,linux/arm64
+  10@linux/amd64 # ,linux/arm64
 )
 
 for i in "${_BUILDS[@]}"; do
