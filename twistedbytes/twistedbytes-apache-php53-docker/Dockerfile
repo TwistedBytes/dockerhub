@@ -39,13 +39,17 @@ RUN echo "sendmail_path = \"/usr/bin/msmtp -t -C /etc/msmtprc -a default\"" > /u
 
 ADD httpd.conf /etc/httpd/conf/httpd.conf
 
-EXPOSE 80
+EXPOSE 8000
 
-RUN cd /usr/local/bin \
-    && curl -O https://raw.githubusercontent.com/docker-library/httpd/master/2.4/httpd-foreground \
-    && chmod 777 httpd-foreground
+ADD --chmod=777 httpd-foreground /usr/local/bin/httpd-foreground
+
+RUN true \
+    && mkdir -p /var/log/httpd /var/run/httpd \
+    && chown -Rf apache:apache /var/log/httpd /var/run/httpd
 
 STOPSIGNAL SIGWINCH
+
+USER apache
 
 # CMD ["/usr/sbin/httpd", "-DFOREGROUND"]
 CMD ["httpd-foreground"]

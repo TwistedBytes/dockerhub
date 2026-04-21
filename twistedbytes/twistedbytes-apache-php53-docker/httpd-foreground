@@ -1,0 +1,14 @@
+#!/bin/sh
+set -e
+
+if [[ -f /pre-exec/run.sh ]]; then
+  bash /pre-exec/run.sh
+fi
+
+ln -sfn /dev/stderr /var/log/httpd/error_log
+ln -sfn /dev/stdout /var/log/httpd/access_log
+
+# Apache gets grumpy about PID files pre-existing
+rm -f /var/run/httpd.pid
+
+exec httpd -DFOREGROUND "$@"

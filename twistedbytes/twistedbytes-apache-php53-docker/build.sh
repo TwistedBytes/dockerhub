@@ -6,4 +6,4 @@ set -e
 
 podman build --rm -t "twistedbytes/apache-php53:$(date +%Y%m%d)" -t "twistedbytes/apache-php53:latest" .
 
-podman save "twistedbytes/apache-php53:latest" | pv | ssh yview.dev2@csl-yview-dev-01.cslweb.uk -p2223 podman load
+# podman save "twistedbytes/apache-php53:latest" | pv | ssh yview.dev2@csl-yview-dev-01.cslweb.uk -p2223 podman load
